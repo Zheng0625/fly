@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.fly.dao.FSeattypeMapper">
+  <resultMap id="BaseResultMap" type="com.ict.fly.domain.entity.FSeattype">
+    <id column="seat_id" jdbcType="INTEGER" property="seatId" />
+    <result column="plane_id" jdbcType="INTEGER" property="planeId" />
+    <result column="seat_yn" jdbcType="INTEGER" property="seatYn" />
+    <result column="seat_type" jdbcType="INTEGER" property="seatType" />
+    <result column="seat_window" jdbcType="INTEGER" property="seatWindow" />
+    <result column="seat_aisle" jdbcType="INTEGER" property="seatAisle" />
+    <result column="seat_front" jdbcType="INTEGER" property="seatFront" />
+    <result column="seat_exit" jdbcType="INTEGER" property="seatExit" />
+    <result column="seat_spacious" jdbcType="INTEGER" property="seatSpacious" />
+    <result column="seat_gate" jdbcType="INTEGER" property="seatGate" />
+    <result column="seat_baby" jdbcType="INTEGER" property="seatBaby" />
+    <result column="seat_locationx" jdbcType="INTEGER" property="seatLocationx" />
+    <result column="seat_locationy" jdbcType="INTEGER" property="seatLocationy" />
+    <result column="seat_locationname" jdbcType="INTEGER" property="seatLocationname" />
+    <!--<association property="fAirplane"-->
+                 <!--javaType="com.ict.fly.domain.entity.FAirplane">-->
+      <!--<id property="planeId" column="plane_id"/>-->
+    <!--</association>-->
+    <!--<association property="fOrderinfo"-->
+                 <!--javaType="com.ict.fly.domain.entity.FOrderinfo">-->
+      <!--<id property="order_id" column="order_id"/>-->
+      <!--<result column="seat_id" property="seatId"/>-->
+    <!--</association>-->
+    <association property="searchSeatResult"
+                 javaType="com.ict.fly.domain.entity.SearchSeatResult">
+      <result property="plane_id" column="planeId"/>
+      <result property="seat_id" column="seatId"/>
+      <result property="isseat" column="isseat"/>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    seat_id, plane_id, seat_yn, seat_type, seat_window, seat_aisle, seat_front, seat_exit, 
+    seat_spacious, seat_gate, seat_baby, seat_locationx, seat_locationy, seat_locationname
+  </sql>
+  <select id="selectByExample" parameterType="com.ict.fly.domain.entity.FSeattypeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from f_seattype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from f_seattype
+    where seat_id = #{seatId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from f_seattype
+    where seat_id = #{seatId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ict.fly.domain.entity.FSeattypeExample">
+    delete from f_seattype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ict.fly.domain.entity.FSeattype">
+    insert into f_seattype (seat_id, plane_id, seat_yn, 
+      seat_type, seat_window, seat_aisle, 
+      seat_front, seat_exit, seat_spacious, 
+      seat_gate, seat_baby, seat_locationx, 
+      seat_locationy, seat_locationname)
+    values (#{seatId,jdbcType=INTEGER}, #{planeId,jdbcType=INTEGER}, #{seatYn,jdbcType=INTEGER}, 
+      #{seatType,jdbcType=INTEGER}, #{seatWindow,jdbcType=INTEGER}, #{seatAisle,jdbcType=INTEGER}, 
+      #{seatFront,jdbcType=INTEGER}, #{seatExit,jdbcType=INTEGER}, #{seatSpacious,jdbcType=INTEGER}, 
+      #{seatGate,jdbcType=INTEGER}, #{seatBaby,jdbcType=INTEGER}, #{seatLocationx,jdbcType=INTEGER}, 
+      #{seatLocationy,jdbcType=INTEGER}, #{seatLocationname,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ict.fly.domain.entity.FSeattype">
+    insert into f_seattype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seatId != null">
+        seat_id,
+      </if>
+      <if test="planeId != null">
+        plane_id,
+      </if>
+      <if test="seatYn != null">
+        seat_yn,
+      </if>
+      <if test="seatType != null">
+        seat_type,
+      </if>
+      <if test="seatWindow != null">
+        seat_window,
+      </if>
+      <if test="seatAisle != null">
+        seat_aisle,
+      </if>
+      <if test="seatFront != null">
+        seat_front,
+      </if>
+      <if test="seatExit != null">
+        seat_exit,
+      </if>
+      <if test="seatSpacious != null">
+        seat_spacious,
+      </if>
+      <if test="seatGate != null">
+        seat_gate,
+      </if>
+      <if test="seatBaby != null">
+        seat_baby,
+      </if>
+      <if test="seatLocationx != null">
+        seat_locationx,
+      </if>
+      <if test="seatLocationy != null">
+        seat_locationy,
+      </if>
+      <if test="seatLocationname != null">
+        seat_locationname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seatId != null">
+        #{seatId,jdbcType=INTEGER},
+      </if>
+      <if test="planeId != null">
+        #{planeId,jdbcType=INTEGER},
+      </if>
+      <if test="seatYn != null">
+        #{seatYn,jdbcType=INTEGER},
+      </if>
+      <if test="seatType != null">
+        #{seatType,jdbcType=INTEGER},
+      </if>
+      <if test="seatWindow != null">
+        #{seatWindow,jdbcType=INTEGER},
+      </if>
+      <if test="seatAisle != null">
+        #{seatAisle,jdbcType=INTEGER},
+      </if>
+      <if test="seatFront != null">
+        #{seatFront,jdbcType=INTEGER},
+      </if>
+      <if test="seatExit != null">
+        #{seatExit,jdbcType=INTEGER},
+      </if>
+      <if test="seatSpacious != null">
+        #{seatSpacious,jdbcType=INTEGER},
+      </if>
+      <if test="seatGate != null">
+        #{seatGate,jdbcType=INTEGER},
+      </if>
+      <if test="seatBaby != null">
+        #{seatBaby,jdbcType=INTEGER},
+      </if>
+      <if test="seatLocationx != null">
+        #{seatLocationx,jdbcType=INTEGER},
+      </if>
+      <if test="seatLocationy != null">
+        #{seatLocationy,jdbcType=INTEGER},
+      </if>
+      <if test="seatLocationname != null">
+        #{seatLocationname,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ict.fly.domain.entity.FSeattypeExample" resultType="java.lang.Long">
+    select count(*) from f_seattype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update f_seattype
+    <set>
+      <if test="record.seatId != null">
+        seat_id = #{record.seatId,jdbcType=INTEGER},
+      </if>
+      <if test="record.planeId != null">
+        plane_id = #{record.planeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatYn != null">
+        seat_yn = #{record.seatYn,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatType != null">
+        seat_type = #{record.seatType,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatWindow != null">
+        seat_window = #{record.seatWindow,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatAisle != null">
+        seat_aisle = #{record.seatAisle,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatFront != null">
+        seat_front = #{record.seatFront,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatExit != null">
+        seat_exit = #{record.seatExit,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatSpacious != null">
+        seat_spacious = #{record.seatSpacious,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatGate != null">
+        seat_gate = #{record.seatGate,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatBaby != null">
+        seat_baby = #{record.seatBaby,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatLocationx != null">
+        seat_locationx = #{record.seatLocationx,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatLocationy != null">
+        seat_locationy = #{record.seatLocationy,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatLocationname != null">
+        seat_locationname = #{record.seatLocationname,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update f_seattype
+    set seat_id = #{record.seatId,jdbcType=INTEGER},
+      plane_id = #{record.planeId,jdbcType=INTEGER},
+      seat_yn = #{record.seatYn,jdbcType=INTEGER},
+      seat_type = #{record.seatType,jdbcType=INTEGER},
+      seat_window = #{record.seatWindow,jdbcType=INTEGER},
+      seat_aisle = #{record.seatAisle,jdbcType=INTEGER},
+      seat_front = #{record.seatFront,jdbcType=INTEGER},
+      seat_exit = #{record.seatExit,jdbcType=INTEGER},
+      seat_spacious = #{record.seatSpacious,jdbcType=INTEGER},
+      seat_gate = #{record.seatGate,jdbcType=INTEGER},
+      seat_baby = #{record.seatBaby,jdbcType=INTEGER},
+      seat_locationx = #{record.seatLocationx,jdbcType=INTEGER},
+      seat_locationy = #{record.seatLocationy,jdbcType=INTEGER},
+      seat_locationname = #{record.seatLocationname,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ict.fly.domain.entity.FSeattype">
+    update f_seattype
+    <set>
+      <if test="planeId != null">
+        plane_id = #{planeId,jdbcType=INTEGER},
+      </if>
+      <if test="seatYn != null">
+        seat_yn = #{seatYn,jdbcType=INTEGER},
+      </if>
+      <if test="seatType != null">
+        seat_type = #{seatType,jdbcType=INTEGER},
+      </if>
+      <if test="seatWindow != null">
+        seat_window = #{seatWindow,jdbcType=INTEGER},
+      </if>
+      <if test="seatAisle != null">
+        seat_aisle = #{seatAisle,jdbcType=INTEGER},
+      </if>
+      <if test="seatFront != null">
+        seat_front = #{seatFront,jdbcType=INTEGER},
+      </if>
+      <if test="seatExit != null">
+        seat_exit = #{seatExit,jdbcType=INTEGER},
+      </if>
+      <if test="seatSpacious != null">
+        seat_spacious = #{seatSpacious,jdbcType=INTEGER},
+      </if>
+      <if test="seatGate != null">
+        seat_gate = #{seatGate,jdbcType=INTEGER},
+      </if>
+      <if test="seatBaby != null">
+        seat_baby = #{seatBaby,jdbcType=INTEGER},
+      </if>
+      <if test="seatLocationx != null">
+        seat_locationx = #{seatLocationx,jdbcType=INTEGER},
+      </if>
+      <if test="seatLocationy != null">
+        seat_locationy = #{seatLocationy,jdbcType=INTEGER},
+      </if>
+      <if test="seatLocationname != null">
+        seat_locationname = #{seatLocationname,jdbcType=INTEGER},
+      </if>
+    </set>
+    where seat_id = #{seatId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ict.fly.domain.entity.FSeattype">
+    update f_seattype
+    set plane_id = #{planeId,jdbcType=INTEGER},
+      seat_yn = #{seatYn,jdbcType=INTEGER},
+      seat_type = #{seatType,jdbcType=INTEGER},
+      seat_window = #{seatWindow,jdbcType=INTEGER},
+      seat_aisle = #{seatAisle,jdbcType=INTEGER},
+      seat_front = #{seatFront,jdbcType=INTEGER},
+      seat_exit = #{seatExit,jdbcType=INTEGER},
+      seat_spacious = #{seatSpacious,jdbcType=INTEGER},
+      seat_gate = #{seatGate,jdbcType=INTEGER},
+      seat_baby = #{seatBaby,jdbcType=INTEGER},
+      seat_locationx = #{seatLocationx,jdbcType=INTEGER},
+      seat_locationy = #{seatLocationy,jdbcType=INTEGER},
+      seat_locationname = #{seatLocationname,jdbcType=INTEGER}
+    where seat_id = #{seatId,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="findByPlaneId" parameterType="int" resultType="com.ict.fly.domain.entity.FSeattype" resultMap="BaseResultMap">
+    select * from f_seattype where plane_id = #{planeId} and seat_yn =0 order by seat_locationx, seat_locationy
+  </select>
+
+  <select id="selectBySeat" parameterType="com.ict.fly.domain.entity.FSeattype" resultMap="BaseResultMap">
+    select * from f_seattype
+    <where>
+      <if test="seatWindow != null">
+        seat_window = #{seatWindow,jdbcType=INTEGER}
+      </if>
+      <if test="seatAisle != null">
+        and seat_aisle = #{seatAisle,jdbcType=INTEGER}
+      </if>
+      <if test="seatExit != null">
+        and seat_exit = #{seatExit,jdbcType=INTEGER}
+      </if>
+      <if test="seatGate != null">
+        and seat_gate = #{seatGate,jdbcType=INTEGER}
+      </if>
+      <if test="seatBaby != null">
+        and seat_baby = #{seatBaby,jdbcType=INTEGER}
+      </if>
+      <if test="seatFront != null">
+        and seat_front = #{seatFront,jdbcType=INTEGER}
+      </if>
+      <if test="seatSpacious != null">
+        and seat_spacious = #{seatSpacious,jdbcType=INTEGER}
+      </if>
+    </where>
+    and seat_yn = 0
+  </select>
+
+  <select id="findSeatCount" parameterType="int" resultType="java.lang.Long">
+    select count(*) from f_seattype where plane_id = #{planeId} and  seat_yn = 0;
+  </select>
+
+  <select id="findMoreSeat" parameterType="com.ict.fly.domain.entity.MoreSeat" resultMap="BaseResultMap">
+    select * from f_seattype where seat_yn = 0 limit #{one},#{two}
+  </select>
+
+  <select id="searchOrderSeat" parameterType="com.ict.fly.domain.input.SearchSeatInput" resultMap="BaseResultMap" resultType="com.ict.fly.domain.entity.FSeattype">
+        select *,f_airplane.plane_id,ifnull(t1.seat_id,0) isseat
+        FROM f_airplane
+        LEFT JOIN  f_seattype
+        ON f_airplane.plane_id = f_seattype.plane_id
+        LEFT join
+        (SELECT * FROM f_orderinfo WHERE plane_type = #{planeType} ) t1
+        on t1.seat_id = f_seattype.seat_id
+        WHERE f_seattype.plane_id= #{planeId}
+        order by seat_locationx, seat_locationy;
+    </select>
+</mapper>

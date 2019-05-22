@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title of the document</title>
+    <!-- Bootstrap 3.3.7 -->
+    <!--<link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+
+    <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/2.3.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../../outlink/selectpage.css" type="text/css">
+
+    <link rel="stylesheet" href="../../outlink/demo.css"/>
+</head>
+
+<body>
+<div class="waiwei" style="width: 100%">
+    <input type="button" id="loginbtn" name="loginbtn" class="btn btn-info" data-toggle="modal"
+           data-target="#myLoginModal" value="登录"/>
+    <div class="loginSuccess" id="loginSuccess">
+
+    </div>
+
+
+    <input type="text" value="SA123" id="text" class="text"/>
+    <select name="" id="xiala">
+
+    </select>
+    <input type="button" class="search" id="search" value="Search">
+    <input type="text" id="selectPage" class=“input-block-level”>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                            style="width: 100%;">
+                        <div class="draggable-element d-1" style="color: #0b97c4">
+                            <option>紧急出口</option>
+                        </div>
+                        <div class="draggable-element d-1">
+                            <option>婴儿挂载</option>
+                        </div>
+                        <div class="draggable-element d-1">
+                            <option>登机口</option>
+                        </div>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    若多人乘坐，请选择乘坐人数：
+    <select name="" id="duoren">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+    </select>
+    <input type="button" class="duo" id="duo" value="提交">
+</div>
+
+<div class="toudeng">
+    <table style="margin:0 auto;" id="seatstable">
+
+    </table>
+</div>
+<div class="modal fade" id="myLoginModal" tabindex="-1" role="dialog"
+     aria-labelledby="myLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="myLoginModalLabel">用户登录</h4>
+            </div>
+            <div class="modal-body">
+                用户名：<input type="text" name="loginUsername" id="loginUsername" value=""/><br/>
+                密&#12288;码：<input type="text" name="loginPassword" id="loginPassword" value=""/><br/>
+                <input type="hidden" id="adddataid" value="0"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="loginform"/>
+                提交
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+选择你的需求<br/><br/>
+<label><input name="xq" type="radio" value="靠窗"/>靠窗 </label>
+<label><input name="xq" type="radio" value="靠过道"/>靠过道(腿部宽敞) </label>
+<label><input name="xuqiu" type="checkbox" value="紧急出口"/>紧急出口 </label>
+<label><input name="xuqiu" type="checkbox" value="婴儿挂载"/>婴儿挂载 </label>
+<label><input name="xuqiu" type="checkbox" value="登机口"/>登机口 </label>
+<input type="button" value="提交" id="okk" class="okk"/>
+
+</div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<!--<script src="../../bower_components/jquery/dist/jquery.min.js"></script>-->
+<!-- Bootstrap 3.3.7 -->
+<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="../../bower_components/select2/dist/js/select2.full.js"></script>
+<script type="text/javascript" src="../../outlink/drag-arrange.js"></script>
+
+
+<script type="text/javascript" src="../../outlink/selectpage.js"></script>
+<script type="text/javascript" src="../../outlink/b.selectpage.js"></script>
+<script type="text/javascript" src="../../outlink/demo.js"></script>
+<script  th:inline="javascript">
+    //设置cookie的方法封装
+    function setCookie(c_name, value, expiredays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + expiredays);
+        document.cookie = c_name + "=" + escape(value) +
+            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+    }
+
+    $(function () {
+        $('.select2').select2();
+        // $('li').arrangeable({dragSelector: '.select2-selection__choice__remove'});
+        // $('li').arrangeable({dragSelector: '.drag-area'});
+        $('#loginform').click(function () {
+            var loginusername = $("#loginUsername").val();
+            var loginpassword = $("#loginPassword").val();
+            var html = "";
+            if (loginUsername == "") {
+                alert("请输入用户名");
+                return false;
+            } else if (loginPassword == "") {
+                alert("请输入密码");
+                return false;
+            }
+            var loginInfo = {
+                username: loginusername,
+                password: loginpassword
+            };
+            $.ajax({
+                type: "post",
+                url: "/login/index",
+                data: JSON.stringify(loginInfo),
+                contentType: "application/json; charset=utf-8",
+                type: "json",       //后台处理后返回的数据格式
+                success: function (data) {//ajax请求成功后触发的方法
+                    if (data.status == 0) {
+                        $('#myLoginModal').modal('hide');
+                        // var ss = [[${session.userName}]];   //session必须刷新一次网页才有，否则为null
+                        if (data.data.uVip == 0) {
+                            html += " <span class=\"hidden-xs\">欢迎您，VIP用户:&nbsp;&nbsp;</span>";
+                            html += " <span class=\"hidden-xs\" id=\"uname\">"+loginusername+"</span>";
+                        } else {
+                            html += " <span class=\"hidden-xs\">欢迎您:&nbsp;&nbsp;</span>";
+                            html += " <span class=\"hidden-xs\" id=\"uname\">"+loginusername+"</span>";
+                        }
+                        $('#loginSuccess').html(html);
+                    }
+
+                    document.getElementById('loginbtn').value = "登出";
+                    document.getElementById('loginbtn').id = 'loginoutbtn';
+                    if (data.status == -1)
+                        alert(data.msg);//弹出错误信息
+                },
+                error: function (data) {
+                    alert("请求失败，请联系管理员")
+                }
+            });
+
+        });
+        $('#loginoutbtn').click(function () {
+
+        })
+    })
+
+
+</script>
+<script  th:inline="javascript">
+    //查询所有航班
+    window.onload = function () {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:9999/plane",
+            success: function (result) {
+                var html = "";
+                var i = 0;
+                if (i < result.data.length) {
+                    $.each(result.data, function (index, value) {
+                        html += " <option value='" + value.planeType + "'>";
+                        html += value.planeType;
+                        html += "</option>";
+                        i++;
+                    })
+                    console.log(result);
+                }
+                $("#xiala").html(html);
+            }
+        })
+    };
+    //查询飞机布局及座位状态
+    $('#search').click(function () {
+        $("#xiala").val();//获取当前选择项的值.
+        var options = $("#xiala option:selected");//获取当前选择项.
+        var searchName = options.val();//获取当前选择项的值.
+        // = $("#text").val();
+        $.ajax({
+            type: "post",
+            url: "http://localhost:9999/index/p",
+            data: {plane_type: searchName},
+            success: function (result) {//ajax请求成功后触发的方法
+                console.log(result);
+                var html = "";
+                var l1 = result.data.length;
+                for (var i = 0; i < result.data.length; i++) {
+                    html += "<tr id=\"tou\" class=\"tou\" >";
+                    var l2 = result.data[0].length
+                    // for (var j = 0; j < result.data[i].length; j++) {
+                    $.each(result.data[i], function (index, value) {
+                        if (value.seatType == 0) {
+                            if (value.seatYn == 1) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "小路";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "' isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatWindow == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "窗";
+                                html += "<img src='/../../toudengseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatAisle == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "过道";
+                                html += "<img src='/../../toudengseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatBaby == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "婴儿";
+                                html += "<img src='/../../toudengseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatExit == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "紧急";
+                                html += "<img src='/../../toudengseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatGate == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "登机口";
+                                html += "<img src='/../../toudengseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "<img src='/../../toudengseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            }
+                        }
+                        if (value.seatType == 1) {
+                            if (value.seatYn == 1) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "小路";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatWindow == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "窗";
+                                html += "<img src='/../../shangwuseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatAisle == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "过道";
+                                html += "<img src='/../../shangwuseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatBaby == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "婴儿";
+                                html += "<img src='/../../shangwuseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatExit == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "紧急";
+                                html += "<img src='/../../shangwuseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatGate == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "登机口";
+                                html += "<img src='/../../shangwuseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "<img src='/../../shangwuseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            }
+                        }
+                        if (value.seatType == 2) {
+                            if (value.seatYn == 1) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "小路";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatWindow == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "窗";
+                                html += "<img src='/../../shangseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatAisle == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "过道";
+                                html += "<img src='/../../shangseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatBaby == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "婴儿";
+                                html += "<img src='/../../shangseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatExit == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "紧急";
+                                html += "<img src='/../../shangseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else if (value.seatGate == 0) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "登机口";
+                                html += "<img src='/../../shangseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            } else {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "<img src='/../../shangseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</td>";
+                            }
+                        }
+                    });
+                    html += "</tr>";
+                }
+                $("#seatstable").html(html);
+                var b_isseat = {}
+                $(".isseat").each(function (index, value) {
+                    b_isseat[index] = value.attributes.isseat.nodeValue;
+                    if (b_isseat[index] == 0) {
+                        b_isseat[index].style.color = 'red';
+                    } else {
+                        b_isseat[index].style.color = "green";
+                    }
+                });
+                console.log(b_isseat);
+                // var a_isseat = document.getElementsByClassName("isseat");  //获取文档中class为“isseat”的所有元素
+                // for (var s = 0; s < a_isseat.length; s++) {
+                //     if (a_isseat[s].attributes.isseat.nodeValue == 0) {
+                //         a_isseat[s].style.color = "red";
+                //     } else {
+                //         a_isseat[s].style.color = "green";
+                //     }
+                // }
+            },
+            error: function (data) {
+                alert("error")
+            }
+        });
+    })
+    //单人选座
+    var searchName = null;
+    $('#okk').click(function () {
+        var list = {};
+        var index_1 = null;
+        var index_2 = null;
+        var uname = document.getElementById("uname");
+        var username = uname.innerText;
+        var check_val = $('input:radio[name="xq"]:checked').val();
+        list["wora"] = check_val;
+        $('.sp_element_box').children("li").each(function (index, element) {
+            if (!("" === element.innerText)) {   //参数结尾有x
+                var str = element.innerText;
+                str = str.replace("x", "");    //除去字符串后的x
+                if (str == "靠窗") {
+                    index_1 = str;
+                }
+                if (str == "靠过道") {
+                    index_2 = str;
+                }
+                list["'" + index + "'"] = str;
+            }
+        })
+        if (index_1 === "靠窗" && index_2 === "靠过道") {
+            alert("靠窗和靠过道为互斥选项，只能二选一哦。")
+            return;
+        }
+        var names = document.getElementsByName("xuqiu");
+        $("#xiala").val();//获取当前选择项的值.
+        var options = $("#xiala option:selected");//获取当前选择项.
+        searchName = options.val();//获取当前选择项的值.
+        list["username"] = username
+        list["plane_type"] = searchName;
+        console.log(JSON.stringify(list));
+        $.ajax({
+            type: "post",
+            url: "/order/add",
+            data: JSON.stringify(list),
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            success: function (result) {//ajax请求成功后触发的方法
+
+            }
+        })
+    });
+    //多人选座
+    $('#duo').click(function () {
+        var duo = $("#duoren option:selected");
+        console.log(duo.val());
+        var renshu = duo.val();
+        var moreOrderInput = {
+            "renshu" : renshu,
+            "plane_type" : searchName
+        }
+        $.ajax({
+            type: "post",
+            url: "/order/addMore",
+            data: JSON.stringify(moreOrderInput),
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            success: function (result) {//ajax请求成功后触发的方法
+
+            }
+        })
+    })
+    //用户需求设置
+    var data_do = [{id: 1, desc: '靠窗'}, {id: 2, desc: '靠过道'}, {id: 3, desc: '紧急出口'}, {id: 4, desc: '婴儿挂载'}, {
+        id: 5,
+        desc: '登机口'
+    }, {id: 6, desc: '腿部宽敞'}];  //用户需求设置
+    $('#selectPage').bSelectPage({
+        showField: 'desc',
+        keyField: 'id',
+        data: data_do,
+        //启用多选模式
+        multiple: true,
+    });
+
+
+</script>
+</html>

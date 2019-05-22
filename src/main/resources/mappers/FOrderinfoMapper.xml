@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.fly.dao.FOrderinfoMapper">
+    <resultMap id="BaseResultMap" type="com.ict.fly.domain.entity.FOrderinfo">
+        <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="seat_id" jdbcType="INTEGER" property="seatId"/>
+        <result column="u_name" jdbcType="VARCHAR" property="uName"/>
+        <result column="u_id_type" jdbcType="INTEGER" property="uIdType"/>
+        <result column="u_id_num1" jdbcType="VARCHAR" property="uIdNum1"/>
+        <result column="seat_type" jdbcType="INTEGER" property="seatType"/>
+        <result column="plane_type" jdbcType="VARCHAR" property="planeType"/>
+ <!--       <association property="fAirplane"
+                     javaType="com.ict.fly.domain.entity.FAirplane">
+            <id property="plane_id" column="plane_id"/>
+        </association>
+        <association property="fSeattype"
+                     javaType="com.ict.fly.domain.entity.FSeattype">
+            <id property="seat_id" column="seat_id"/>
+        </association>-->
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    order_id, seat_id, u_name, u_id_type, u_id_num1, seat_type, plane_type
+  </sql>
+    <select id="selectByExample" parameterType="com.ict.fly.domain.entity.FOrderinfoExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from f_orderinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from f_orderinfo
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from f_orderinfo
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.ict.fly.domain.entity.FOrderinfoExample">
+        delete from f_orderinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ict.fly.domain.entity.FOrderinfo">
+    insert into f_orderinfo (order_id, seat_id, u_name, 
+      u_id_type, u_id_num1, seat_type, 
+      plane_type)
+    values (#{orderId,jdbcType=INTEGER}, #{seatId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, 
+      #{uIdType,jdbcType=INTEGER}, #{uIdNum1,jdbcType=VARCHAR}, #{seatType,jdbcType=INTEGER}, 
+      #{planeType,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ict.fly.domain.entity.FOrderinfo">
+        insert into f_orderinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="seatId != null">
+                seat_id,
+            </if>
+            <if test="uName != null">
+                u_name,
+            </if>
+            <if test="uIdType != null">
+                u_id_type,
+            </if>
+            <if test="uIdNum1 != null">
+                u_id_num1,
+            </if>
+            <if test="seatType != null">
+                seat_type,
+            </if>
+            <if test="planeType != null">
+                plane_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="seatId != null">
+                #{seatId,jdbcType=INTEGER},
+            </if>
+            <if test="uName != null">
+                #{uName,jdbcType=VARCHAR},
+            </if>
+            <if test="uIdType != null">
+                #{uIdType,jdbcType=INTEGER},
+            </if>
+            <if test="uIdNum1 != null">
+                #{uIdNum1,jdbcType=VARCHAR},
+            </if>
+            <if test="seatType != null">
+                #{seatType,jdbcType=INTEGER},
+            </if>
+            <if test="planeType != null">
+                #{planeType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ict.fly.domain.entity.FOrderinfoExample" resultType="java.lang.Long">
+        select count(*) from f_orderinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update f_orderinfo
+        <set>
+            <if test="record.orderId != null">
+                order_id = #{record.orderId,jdbcType=INTEGER},
+            </if>
+            <if test="record.seatId != null">
+                seat_id = #{record.seatId,jdbcType=INTEGER},
+            </if>
+            <if test="record.uName != null">
+                u_name = #{record.uName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.uIdType != null">
+                u_id_type = #{record.uIdType,jdbcType=INTEGER},
+            </if>
+            <if test="record.uIdNum1 != null">
+                u_id_num1 = #{record.uIdNum1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.seatType != null">
+                seat_type = #{record.seatType,jdbcType=INTEGER},
+            </if>
+            <if test="record.planeType != null">
+                plane_type = #{record.planeType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update f_orderinfo
+        set order_id = #{record.orderId,jdbcType=INTEGER},
+        seat_id = #{record.seatId,jdbcType=INTEGER},
+        u_name = #{record.uName,jdbcType=VARCHAR},
+        u_id_type = #{record.uIdType,jdbcType=INTEGER},
+        u_id_num1 = #{record.uIdNum1,jdbcType=VARCHAR},
+        seat_type = #{record.seatType,jdbcType=INTEGER},
+        plane_type = #{record.planeType,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ict.fly.domain.entity.FOrderinfo">
+        update f_orderinfo
+        <set>
+            <if test="seatId != null">
+                seat_id = #{seatId,jdbcType=INTEGER},
+            </if>
+            <if test="uName != null">
+                u_name = #{uName,jdbcType=VARCHAR},
+            </if>
+            <if test="uIdType != null">
+                u_id_type = #{uIdType,jdbcType=INTEGER},
+            </if>
+            <if test="uIdNum1 != null">
+                u_id_num1 = #{uIdNum1,jdbcType=VARCHAR},
+            </if>
+            <if test="seatType != null">
+                seat_type = #{seatType,jdbcType=INTEGER},
+            </if>
+            <if test="planeType != null">
+                plane_type = #{planeType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ict.fly.domain.entity.FOrderinfo">
+    update f_orderinfo
+    set seat_id = #{seatId,jdbcType=INTEGER},
+      u_name = #{uName,jdbcType=VARCHAR},
+      u_id_type = #{uIdType,jdbcType=INTEGER},
+      u_id_num1 = #{uIdNum1,jdbcType=VARCHAR},
+      seat_type = #{seatType,jdbcType=INTEGER},
+      plane_type = #{planeType,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectOrder" parameterType="com.ict.fly.domain.entity.FOrderinfo" resultMap="BaseResultMap">
+    select * from f_orderinfo
+    where plane_type = #{planeType,jdbcType=VARCHAR}
+    and seat_id = #{seatId,jdbcType=INTEGER}
+  </select>
+
+    <select id="findBySeatId" resultMap="BaseResultMap" parameterType="int">
+        select * from f_orderinfo
+        where seat_id = #{seatId}
+    </select>
+    <select id="findByPlaneType" parameterType="string" resultType="com.ict.fly.domain.entity.FSeattype" resultMap="BaseResultMap">
+    select * from f_orderinfo where plane_type = #{planeType}
+  </select>
+
+    <select id="findOrderCount" parameterType="string" resultType="java.lang.Long">
+    select count(*) from f_orderinfo where plane_type = #{planeType};
+  </select>
+    <!--<select id="searchOrderSeat" parameterType="" resultMap="BaseResultMap">-->
+        <!--select f_airplane.plane_id,f_seattype.seat_id,ifnull(t1.seat_id,0) isseat-->
+        <!--FROM f_airplane-->
+        <!--LEFT JOIN  f_seattype-->
+        <!--ON f_airplane.plane_id = f_seattype.plane_id-->
+        <!--LEFT join-->
+        <!--(SELECT * FROM f_orderinfo WHERE plane_type = #{planeType} ) t1-->
+        <!--on t1.seat_id = f_seattype.seat_id-->
+        <!--WHERE f_seattype.plane_id= #{};-->
+    <!--</select>-->
+</mapper>

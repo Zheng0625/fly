@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced form elements</title>
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
+    <section class="content">
+      <div class="box box-default">
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Multiple</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                  style="width: 100%;">
+                  <div class="draggable-element d-1">
+                    <option>Alabama</option>
+                  </div>
+                  <div class="draggable-element d-1">
+                    <option>Alaska</option>
+                  </div>
+                  <div class="draggable-element d-1">
+                    <option>California</option>
+                  </div>
+                  <div class="draggable-element d-1">
+                    <option>Delaware</option>
+                  </div>
+                  <div class="draggable-element d-1">
+                    <option>Tennessee</option>
+                  </div>
+                  <div class="draggable-element d-1">
+                    <option>Texas</option>
+                  </div>
+                  <div class="draggable-element d-1">
+                    <option>Washington</option>
+                  </div>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- Select2 -->
+  <script src="../../bower_components/select2/dist/js/select2.full.js"></script>
+  <script type="text/javascript" src="../../drag-arrange.js"></script>
+  <script>
+    $(function () {
+      $('.select2').select2();
+      // $('li').arrangeable({dragSelector: '.select2-selection__choice__remove'});
+      $('li').arrangeable({dragSelector: '.drag-area'});
+    })
+  </script>
+</body>
+
+</html>

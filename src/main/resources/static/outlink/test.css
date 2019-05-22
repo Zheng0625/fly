@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    text-align: center;
+    background-image: url("img/bcg_5.jpg");
+    background-size: cover;
+
+}
+
+#section {
+    margin-top: 50px;
+    height: 70%;
+    border-radius: 260px;
+    background-color: rgba(0, 0, 0, 0.1);
+
+}
+h1 {
+    margin-top: 30px;
+    border: none;
+    color: white;
+    padding: 20px 60px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 45px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-shadow: 5px 2px 4px black;
+    letter-spacing: 10px;
+
+}
+
+span {
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+/* .s_exchange {
+position: absolute;
+z-index: 1;
+left: 46%;
+height: 80px;
+border: 1px solid #ddd;
+border-left: none;
+text-indent: 0;
+font: 12px/2.0 simsun, sans-serif;
+margin: 0 auto;
+} */
+
+
+label input {
+
+    background-color: transparent;
+}
+
+.xuanze .can #isSelected {
+    color: cadetblue;
+}
+
+.xuanze .can #head {
+    color: red;
+
+}
+
+.xuanze .can #shangwu {
+    color: blue;
+}
+
+.xuanze .can #economic {
+    color: green;
+}
+
+
+.yaoqiu label input #need {
+    color: aquamarine;
+}
+
+
+.okk {
+    margin-bottom: 20px;
+    background-color: #009fcc;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-top: 50px;
+}
+
+.okk:hover {
+    background-color: rgba(95, 142, 231, 0.4);
+}
+
+img {
+    margin-top: 30px;
+    float: left;
+    widows: 25px;
+    height: 20px;
+}
+
+#loginbtn {
+    float: right;
+    margin-right: 0px;
+    padding: 5px 10px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+#loginoutbtn {
+    float: right;
+    margin-right: 0px;
+    padding:  5px 10px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+div.sp_container_combo {
+    /* border: 1px solid #CCCCCC; */
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-sizing: content-box;
+}
