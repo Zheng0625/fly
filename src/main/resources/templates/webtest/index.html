@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <title>订票页面</title>
     <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
-    <!-- Select2 -->
-    <link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 
@@ -15,9 +13,7 @@
 
     <link rel="stylesheet" href="../../outlink/demo.css"/>
 
-    <link rel="stylesheet" href="../../outlink/test.css"/>
-
-    <link rel="stylesheet" href="../../outlink/kuCity.css">
+    <link rel="stylesheet" href="../../outlink/test.css"/>    <link rel="stylesheet" href="../../outlink/kuCity.css">
 
     <link rel="stylesheet" href="../../outlink/jquery.cxcalendar.css">
 
@@ -29,8 +25,9 @@
     <p>
         <input type="button" id="loginbtn" name="loginbtn" class="btn btn-info" value="登录" style="margin-right: 0px"/>
     <div class="loginSuccess" id="loginSuccess" style="float: right;margin-right: 10px">
-    <!--登录成功后显示用户信息-->
+        <!--登录成功后显示用户信息-->
     </div>
+    <!--登录模态框-->
     <div class="modal fade" id="myLoginModal" tabindex="-1" role="dialog"
          aria-labelledby="myLoginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -65,18 +62,17 @@
         <section style="width: 50%; float: left">
             <div class="feiji">
                 <span style="float: left;margin-top: 30px; font-size: 25px;margin-left: 100px;display:inline-block;text-align:center;">出发城市:</span>
-                <img style="width: 30px;height: 30px " th:src="@{~/outlink/img/起飞.svg} ">
-                <input type="text" class="search"
+                <img style="width: 30px;height: 30px " th:src="@{~/outlink/img/qifei.svg} ">
+                <input type="text" class="search" id="search_1"
                        style="height: 25px;width: 150px;margin-top: 30px;border-radius: 10px;font-size: 18px;color:#7A67EE;font-weight: bold;margin-right: 150px;"/>
                 <br>
                 <span style="float: left;margin-top: 30px; font-size: 25px;margin-left: 100px;display:inline-block;text-align:center;">到达城市:</span>
-                <img style="width: 30px;height: 30px " th:src="@{~/outlink/img/降落.svg}">
-                <input type="text" class="search search2"
+                <img style="width: 30px;height: 30px " th:src="@{~/outlink/img/jiangluo.svg}">
+                <input type="text" class="search search2" id="search_2"
                        style="height: 25px;width: 150px;margin-top: 30px;border-radius: 10px;font-size: 18px;color:#7A67EE;font-weight: bold;margin-right: 150px;"/>
                 <br>
-
                 <span style="float: left;margin-top: 30px; font-size: 25px;margin-left: 100px;display:inline-block;text-align:center;">出发时间:</span>
-                <img style="width: 25px;height: 25px " th:src="@{~/outlink/img/时间.svg}">
+                <img style="width: 25px;height: 25px " th:src="@{~/outlink/img/shijian.svg}">
                 <input id="date_a" name="mydate" type="text" readonly
                        style="height: 25px;width: 150px;margin-top: 30px;border-radius: 10px;font-size: 18px;color:#7A67EE;font-weight: bold;margin-right: 150px;"/>
                 <br>
@@ -99,12 +95,8 @@
 
                 <div style="margin-top: 30px;height: 35px;">
                     <span style="display:inline-block;width:100px;text-align:center;">航班选择:</span>
-                    <select id="hangban" class="can" style="font-size: 16px;font-weight: bold;">
-                        <option value="0" id="isSelectedhangban">未选择</option>
-                        <option value="SA123">马航375</option>
-                        <option value="SA234">波音747</option>
-                        <option value="SA345">波音777</option>
-                        <option value="SA321">马航377</option>
+                    <select id="xiala" class="can" style="font-size: 16px;font-weight: bold;">
+                        <!--查询数据库航班-->
                     </select><br/>
                 </div>
                 <div style="margin-top: 30px;height: 35px;">
@@ -135,19 +127,23 @@
             </select><br/>
         </div>
         <div style="width: 100%;height:42px; margin-top: 30px;float: right">
-            <span style="color:red;font-size:20px;"class="vip">VIP</span><span style="color:black">用户专属需求:</span>
+            <span style="color:red;font-size:20px;" class="vip">VIP</span><span style="color:black">用户专属需求:</span>
             <span style="margin-left:10px;color: #000000;font-size: 20px;font-weight:bold">
-            <input name="vipxq" type="checkbox" class="vipxq" value="前排"/>前排
-            <input name="vipxq" type="checkbox" class="vipxq" value="四周无婴儿"/>四周无婴儿
-            <input name="vipxq" type="checkbox" class="vipxq" value="四周有男性"/>四周有男性
-            <input name="vipxq" type="checkbox" class="vipxq" value="四周有女性"/>四周有女性</span>
-            <!--<span style="color:red;font-size:20px;">VIP</span><span style="color:black">用户选择:</span>-->
-            <!--<span style="margin-left:10px;color: #000000;font-size: 14px;font-weight:bold"><input name="xq" type="radio"-->
-            <!--value="前排"/>前排</span>-->
+            <input name="vipxq" type="checkbox" class="vipxq" value="前排" disabled="true"/>前排
+            <input name="vipxq" type="checkbox" class="vipxq" value="四周无婴儿" disabled="true"/>四周无婴儿
+            <input name="vipxq" type="checkbox" class="vipxq" value="四周有男性" disabled="true"/>四周有男性
+            <input name="vipxq" type="checkbox" class="vipxq" value="四周有女性" disabled="true"/>四周有女性</span>
+        </div>
+
+        <div style="margin-left: auto;margin-right: auto">
+            <div style="width: 55.5%;height:42px; margin-top: 10px;float: right;margin-left: auto;margin-right: auto">
+                <button type="button" id="okk" class="btn btn-block btn-primary btn-lg" style="width: 200px;height: 30px">立即分配</button>
+            </div>
         </div>
 
     </div>
-
+    <div style="margin-top: 30px;">
+    </div>
 </div>
 
 </body>
@@ -155,8 +151,6 @@
 <!--<script src="../../bower_components/jquery/dist/jquery.min.js"></script>-->
 <!-- Bootstrap 3.3.7 -->
 <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- Select2 -->
-<script src="../../bower_components/select2/dist/js/select2.full.js"></script>
 <script type="text/javascript" src="../../outlink/drag-arrange.js"></script>
 
 
@@ -166,6 +160,7 @@
 <script type="text/javascript" src="../../outlink/kuCity.js"></script>
 <script src="../../outlink/jquery.cxcalendar.js"></script>
 <script src="../../outlink/jquery.cxcalendar.languages.js"></script>
+<script src="../../outlink/jquery.cookie.js"></script>
 <script>
     //城市选择
     $('.search').kuCity();
@@ -173,7 +168,6 @@
     $('#date_a').cxCalendar({
         wday: 0
     });
-    $('.select2').select2();
 </script>
 <script th:inline="javascript">
     //设置cookie的方法封装
@@ -183,7 +177,7 @@
         document.cookie = c_name + "=" + escape(value) +
             ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
     }
-
+    //用户登录
     $(function () {
         $('#loginform').click(function () {
             var loginusername = $("#loginUsername").val();
@@ -212,6 +206,7 @@
                         setCookie("username", loginusername, 60 * 60 * 1000);
                         // var ss = [[${session.userName}]];   //session必须刷新一次网页才有，否则为null
                         if (data.data.uVip == 0) {
+                            $('.vipxq').removeAttr("disabled"); //去除vip需求限制
                             html += " <span class=\"hidden-xs\" style='color: red;' >欢迎您,VIP用户:&nbsp;&nbsp;</span>";
                             html += " <span class=\"hidden-xs\" id=\"uname\" style='color: black;font-size:35px '>" + loginusername + "</span>";
                         } else {
@@ -220,7 +215,7 @@
                         }
                         $('#loginSuccess').html(html);
                         document.getElementById('loginbtn').value = "登出";
-                        document.getElementById('loginbtn').id = 'loginoutbtn';
+                        // document.getElementById('loginbtn').id = 'loginoutbtn';
 
                     }
                     if (data.status == -1)
@@ -247,7 +242,11 @@
             success: function (result) {
                 var html = "";
                 var i = 0;
+                html += " <option value='" + "0" + "'>";
+                html += "未选择";
+                html += "</option>";
                 if (i < result.data.length) {
+
                     $.each(result.data, function (index, value) {
                         html += " <option value='" + value.planeType + "'>";
                         html += value.planeType;
@@ -260,6 +259,94 @@
             }
         })
     };
+    //单人选座
+    var searchName = null;
+    $('#okk').click(function () {
+        var cfcs = document.getElementById("search_1");
+        var ddcs = document.getElementById("search_2");
+        if (cfcs.value == "" || ddcs.value =="") {
+            alert("出发城市和到达城市都不能为空，请核对后提交")
+            return;
+        } else if (cfcs.value == ddcs.value) {
+            alert("出发城市和到达城市不能相同，请核对后提交");
+            return;
+        }
+        var isCookie = $.cookie('username'); // 读取 cookie
+        var sss_pd = document.getElementById("loginbtn");
+        // var isCookie = getCookie("username");
+        if (isCookie == undefined || sss_pd.defaultValue =="登录") {
+            alert("您暂时未登录哦，请先登录");
+            $('#myLoginModal').modal('show');
+            return;
+        }
+        var list = {};
+        var index_1 = null;
+        var index_2 = null;
+        var uname = document.getElementById("uname");
+        var username = uname.innerText;
+        var check_val = $('input:radio[name="xq"]:checked').val();
+        list["wora"] = check_val;
+        $('.sp_element_box').children("li").each(function (index, element) {
+            if (!("" === element.innerText)) {   //参数结尾有x
+                var str = element.innerText;
+                str = str.replace("x", "");    //除去字符串后的x
+                if (str == "靠窗") {
+                    index_1 = str;
+                }
+                if (str == "靠过道") {
+                    index_2 = str;
+                }
+                list["'" + index + "'"] = str;
+            }
+        })
+        if (index_1 === "靠窗" && index_2 === "靠过道") {
+            alert("靠窗和靠过道为互斥选项，只能二选一哦。")
+            return;
+        }
+        //获取乘坐人数
+        var renshu = $("#renshu option:selected");//获取当前选择项.
+        rs = renshu.val();//获取当前选择项的值.
+        //获取选择航班
+        var names = document.getElementsByName("xuqiu");
+        $("#xiala").val();//获取当前选择项的值.
+        var options = $("#xiala option:selected");//获取当前选择项.
+        searchName = options.val();//获取当前选择项的值.
+        if (rs == 0) {
+            list["username"] = username
+            list["plane_type"] = searchName;
+            console.log(JSON.stringify(list));
+            return;
+            $.ajax({
+                type: "post",
+                url: "/order/add",
+                data: JSON.stringify(list),
+                dataType: 'json',
+                contentType: 'application/json;charset=UTF-8',
+                success: function (result) {//ajax请求成功后触发的方法
+
+                }
+            })
+        }else if (rs >= 0) {
+            // var duo = $("#duoren option:selected");
+            // console.log(duo.val());
+            // var renshu = duo.val();
+            var moreOrderInput = {
+                "renshu": rs,
+                "plane_type": searchName
+            }
+            return
+            $.ajax({
+                type: "post",
+                url: "/order/addMore",
+                data: JSON.stringify(moreOrderInput),
+                dataType: 'json',
+                contentType: 'application/json;charset=UTF-8',
+                success: function (result) {//ajax请求成功后触发的方法
+
+                }
+            })
+        }
+    });
     //查询飞机布局及座位状态
     $('#search').click(function () {
         $("#xiala").val();//获取当前选择项的值.
@@ -428,70 +515,10 @@
             }
         });
     })
-    //单人选座
-    var searchName = null;
-    $('#okk').click(function () {
-        var list = {};
-        var index_1 = null;
-        var index_2 = null;
-        var uname = document.getElementById("uname");
-        var username = uname.innerText;
-        var check_val = $('input:radio[name="xq"]:checked').val();
-        list["wora"] = check_val;
-        $('.sp_element_box').children("li").each(function (index, element) {
-            if (!("" === element.innerText)) {   //参数结尾有x
-                var str = element.innerText;
-                str = str.replace("x", "");    //除去字符串后的x
-                if (str == "靠窗") {
-                    index_1 = str;
-                }
-                if (str == "靠过道") {
-                    index_2 = str;
-                }
-                list["'" + index + "'"] = str;
-            }
-        })
-        if (index_1 === "靠窗" && index_2 === "靠过道") {
-            alert("靠窗和靠过道为互斥选项，只能二选一哦。")
-            return;
-        }
-        var names = document.getElementsByName("xuqiu");
-        $("#xiala").val();//获取当前选择项的值.
-        var options = $("#xiala option:selected");//获取当前选择项.
-        searchName = options.val();//获取当前选择项的值.
-        list["username"] = username
-        list["plane_type"] = searchName;
-        console.log(JSON.stringify(list));
-        $.ajax({
-            type: "post",
-            url: "/order/add",
-            data: JSON.stringify(list),
-            dataType: 'json',
-            contentType: 'application/json;charset=UTF-8',
-            success: function (result) {//ajax请求成功后触发的方法
 
-            }
-        })
-    });
     //多人选座
     $('#duo').click(function () {
-        var duo = $("#duoren option:selected");
-        console.log(duo.val());
-        var renshu = duo.val();
-        var moreOrderInput = {
-            "renshu": renshu,
-            "plane_type": searchName
-        }
-        $.ajax({
-            type: "post",
-            url: "/order/addMore",
-            data: JSON.stringify(moreOrderInput),
-            dataType: 'json',
-            contentType: 'application/json;charset=UTF-8',
-            success: function (result) {//ajax请求成功后触发的方法
 
-            }
-        })
     })
     //用户需求设置
     var data_do = [{id: 1, desc: '靠窗'}, {id: 2, desc: '靠过道'}, {id: 3, desc: '紧急出口'}, {id: 4, desc: '婴儿挂载'}, {
@@ -506,11 +533,14 @@
         multiple: true,
     });
     $('#loginbtn').click(function () {
-        $('#myLoginModal').modal('hide');
-    })
-    $('#loginoutbtn').click(function () {
-        $('#myLoginModal').modal('hide');
-        setCookie("username", "" - 1);
+        var sss = document.getElementById("loginbtn");
+        if (sss.defaultValue == "登录") {
+            $('#myLoginModal').modal('show');
+        } else {
+            $('#myLoginModal').modal('hide');
+            setCookie("username", "", - 1);
+            window.location.reload();
+        }
     })
 </script>
 </html>
