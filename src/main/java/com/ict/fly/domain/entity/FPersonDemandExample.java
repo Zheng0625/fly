@@ -1023,6 +1023,146 @@ public class FPersonDemandExample {
             addCriterion("demand_baby not between", value1, value2, "demandBaby");
             return (Criteria) this;
         }
+
+        public Criteria andDemandAllIsNull() {
+            addCriterion("demand_all is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllIsNotNull() {
+            addCriterion("demand_all is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllEqualTo(String value) {
+            addCriterion("demand_all =", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllNotEqualTo(String value) {
+            addCriterion("demand_all <>", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllGreaterThan(String value) {
+            addCriterion("demand_all >", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllGreaterThanOrEqualTo(String value) {
+            addCriterion("demand_all >=", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllLessThan(String value) {
+            addCriterion("demand_all <", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllLessThanOrEqualTo(String value) {
+            addCriterion("demand_all <=", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllLike(String value) {
+            addCriterion("demand_all like", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllNotLike(String value) {
+            addCriterion("demand_all not like", value, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllIn(List<String> values) {
+            addCriterion("demand_all in", values, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllNotIn(List<String> values) {
+            addCriterion("demand_all not in", values, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllBetween(String value1, String value2) {
+            addCriterion("demand_all between", value1, value2, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandAllNotBetween(String value1, String value2) {
+            addCriterion("demand_all not between", value1, value2, "demandAll");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuIsNull() {
+            addCriterion("demand_manzu is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuIsNotNull() {
+            addCriterion("demand_manzu is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuEqualTo(String value) {
+            addCriterion("demand_manzu =", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuNotEqualTo(String value) {
+            addCriterion("demand_manzu <>", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuGreaterThan(String value) {
+            addCriterion("demand_manzu >", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuGreaterThanOrEqualTo(String value) {
+            addCriterion("demand_manzu >=", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuLessThan(String value) {
+            addCriterion("demand_manzu <", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuLessThanOrEqualTo(String value) {
+            addCriterion("demand_manzu <=", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuLike(String value) {
+            addCriterion("demand_manzu like", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuNotLike(String value) {
+            addCriterion("demand_manzu not like", value, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuIn(List<String> values) {
+            addCriterion("demand_manzu in", values, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuNotIn(List<String> values) {
+            addCriterion("demand_manzu not in", values, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuBetween(String value1, String value2) {
+            addCriterion("demand_manzu between", value1, value2, "demandManzu");
+            return (Criteria) this;
+        }
+
+        public Criteria andDemandManzuNotBetween(String value1, String value2) {
+            addCriterion("demand_manzu not between", value1, value2, "demandManzu");
+            return (Criteria) this;
+        }
     }
 
     /**

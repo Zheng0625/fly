@@ -31,6 +31,7 @@
       <result property="seat_id" column="seatId"/>
       <result property="isseat" column="isseat"/>
     </association>
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -117,7 +118,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from f_seattype
     where seat_id = #{seatId,jdbcType=INTEGER}
@@ -404,15 +405,15 @@
         and seat_spacious = #{seatSpacious,jdbcType=INTEGER}
       </if>
     </where>
-    and seat_yn = 0
+    and seat_yn = 0 and plane_id = #{planeId}
   </select>
 
-  <select id="findSeatCount" parameterType="int" resultType="java.lang.Long">
+  <select id="findSeatCount" parameterType="int" resultType="int">
     select count(*) from f_seattype where plane_id = #{planeId} and  seat_yn = 0;
   </select>
 
   <select id="findMoreSeat" parameterType="com.ict.fly.domain.entity.MoreSeat" resultMap="BaseResultMap">
-    select * from f_seattype where seat_yn = 0 limit #{one},#{two}
+    select * from f_seattype where seat_yn = 0 and plane_id = #{planeId} limit #{one},#{two}
   </select>
 
   <select id="searchOrderSeat" parameterType="com.ict.fly.domain.input.SearchSeatInput" resultMap="BaseResultMap" resultType="com.ict.fly.domain.entity.FSeattype">
@@ -421,9 +422,14 @@
         LEFT JOIN  f_seattype
         ON f_airplane.plane_id = f_seattype.plane_id
         LEFT join
-        (SELECT * FROM f_orderinfo WHERE plane_type = #{planeType} ) t1
+        (SELECT * FROM f_orderinfo WHERE plane_name = #{planeName} ) t1
         on t1.seat_id = f_seattype.seat_id
         WHERE f_seattype.plane_id= #{planeId}
         order by seat_locationx, seat_locationy;
     </select>
+
+  <select id="selectBySeatId" parameterType="int" resultMap="BaseResultMap">
+    select * from f_seattype where seat_id = #{seatId,jdbcType=INTEGER};
+  </select>
+
 </mapper>

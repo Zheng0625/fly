@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webtest/head::copyhead"></head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div th:include="webtest/header::copyheader"></div>
+<div class="content-wrapper" style="height: 1500px" th:fragment="copyright">
+    <center><span style="font-size: 35px">航班订单管理</span></center>
+    <div style="border-bottom: 1px solid; width: 100%"></div>
+
+    <section style="width:70%;float: left">
+        <span style="display: block;margin-top: 15px;">
+            <span style="font-size: 25px; ">请选择您要查看的航班：
+                <select id="xiala" class="xiala" style="width: 100px;height: 45px;border-radius:7px">
+                <!--航班查询下拉框-->
+                </select>
+                <button type="button" class="btn btn-block btn-info btn-lg" id="search"
+                        style="margin-top: 10px; width:150px ">确定 </button>
+            </span>
+        </span>
+        <table border="1" id="res" class="table table-bordered table-hover">
+            <tr>
+                <th style="width:20%">用户名</th>
+                <th style="width:20%">姓名</th>
+                <th style="width:20%">航班名称</th>
+                <th style="width:20%">排</th>
+                <th style="width:20%">列</th>
+            </tr>
+            <tbody id="planeOrder">
+
+            </tbody>
+        </table>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;
+                        </button>
+
+                    </div>
+                    <div class="modal-body" id="tishixinxi">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" id="zjfp" data-switch-set="state"/>
+                        确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="width: 30%;float: right">
+        <center>
+            <span style="font-size: 35px">整机分配</span><br>
+            <span style="font-size: 25px; display: block;margin-top: 30px; ">请选择原航班：</span>
+            <select id="xiala_1" class="xiala" style="width: 80px;height: 35px;border-radius:7px">
+                <!--航班查询下拉框-->
+            </select>
+            <span style="font-size: 25px; display: block;margin-top: 20px;">选择新航班：</span>
+            <select id="xiala_2" class="xiala" style="width: 80px;height: 35px;border-radius:7px">
+                <!--航班查询下拉框-->
+            </select>
+            <button type="button" class="btn btn-block btn-info btn-lg" id="tijiao"
+                    style="margin-top: 10px; width:150px ">确定
+            </button>
+        </center>
+    </section>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="../../outlink/jquery.pagination.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-switch"></script>
+<script th:inline="javascript">
+    //网页加载调用 selAllPlane();
+    window.onload = function () {
+        selAllPlane();
+
+    }
+    $('#search').click(function () {
+        selPlaneOrder();
+    })
+    $('#zjfp').click(function () {
+        zjfp();
+    })
+
+    var planeName1;
+    var planeName2;
+    $('#tijiao').click(function () {
+        $("#xiala_1").val();//获取当前选择项的值.
+        var options_1 = $("#xiala_1 option:selected");//获取当前选择项.
+        planeName1 = options_1.val();//获取当前选择项的值.
+        $("#xiala_2").val();//获取当前选择项的值.
+        var options_2 = $("#xiala_2 option:selected");//获取当前选择项.
+        planeName2 = options_2.val();//获取当前选择项的值.
+        if (planeName1 == planeName2) {
+            alert("不能选择相同的航班");
+            $('#myModal').modal('hide');
+            return;
+        }
+        var html = "";
+        html += "<h3>";
+        html += "您确定要将航班 " + planeName1 + " 更换到 " + planeName2 + " 么？";
+        html += "</h3>";
+        $("#tishixinxi").html(html);
+        $('#myModal').modal('show');
+    })
+
+    //查询所有航班,封装方法
+    function selAllPlane() {
+        $.ajax({
+            type: "get",
+            url: "../plane",
+            success: function (result) {
+                var html = "";
+                var i = 0;
+                if (i < result.data.length) {
+                    $.each(result.data, function (index, value) {
+                        html += " <option value='" + value.planeName + "'>";
+                        html += value.planeName;
+                        html += "</option>";
+                        i++;
+                    })
+                    console.log(result);
+                }
+                $(".xiala").html(html);
+            },
+        })
+    };
+
+    //查询航班订单
+    function selPlaneOrder() {
+        $("#xiala").val();//获取当前选择项的值.
+        var options = $("#xiala option:selected");//获取当前选择项.
+        var planeName = options.val();//获取当前选择项的值.
+        $.ajax({
+            type: "post",
+            url: "../order/planeOrder",
+            data: JSON.stringify(planeName),
+            contentType: "application/json; charset=utf-8",
+            type: "json",
+            success: function (result) {
+                if (result.status == 0) {
+                    console.log(result);
+                    var html = "";
+                    var listall = result.data;  //后端返回listAll数组
+                    $.each(listall, function (index, value) {  //循环遍历listAll 并添加html标签
+                        html += "<tr>";
+                        html += "<td>";
+                        html += value.planeOrder.username;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.planeOrder.name;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.planeOrder.planeName;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.planeOrder.seat_X + "排";
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.planeOrder.seat_Y + "列";
+                        html += "</td>";
+                        html += "</tr>";
+                    })
+                    $("#planeOrder").html(html);
+                }
+                if (result.status == -1) {
+                    alert(result.msg);
+                    $("#planeOrder").html("");
+                    $('#myModal').modal('hide');
+                }
+            },
+            error: function () {
+                alert("查询失败，请重试");
+            }
+        })
+    };
+
+    function zjfp() {
+        var zjFenpeiEntity = {
+            planeName_1: planeName1,
+            planeName_2: planeName2
+        };
+        $.ajax({
+            type: "post",
+            url: "../order/zjfp",
+            data: JSON.stringify(zjFenpeiEntity),
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            success: function (result) {
+                if (result.status == 0) {
+                    alert(result.msg);
+                    $('#myModal').modal('hide');
+                }
+                if (result.status == -1) {
+                    alert(result.msg);
+                }
+            },
+            error: function () {
+                alert("分配失败，请重试");
+            }
+        })
+
+    }
+
+</script>
+
+</body>
+</html>

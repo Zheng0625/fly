@@ -22,6 +22,8 @@
 <div class="waiwei" style="width: 100%">
     <input type="button" id="loginbtn" name="loginbtn" class="btn btn-info" data-toggle="modal"
            data-target="#myLoginModal" value="登录"/>
+    <input type="button" id="addbtn" name="addbtn" class="btn btn-info" data-toggle="modal"
+           data-target="#myAddModal" value="注册"/>
     <div class="loginSuccess" id="loginSuccess">
 
     </div>
@@ -96,7 +98,35 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="myAddModal" tabindex="-1" role="dialog"
+     aria-labelledby="myAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="myAddModalLabel">请输入用户信息</h4>
+            </div>
+            <div class="modal-body">
+                用户名：<input type="text" name="dupusername" id="addusername" value=""/><br/>
+                密&#12288;码：<input type="text" name="duppassword" id="addpassword" value=""/><br/>
+                姓&#12288;名：<input type="text" name="duprealname" id="addrealname" value=""/><br/>
+                年&#12288;龄：<input type="text" name="dupage" id="addage" value=""/><br/>
+                性&#12288;别：<input type="text" name="dupsex" id="addsex" value=""/><br/>
+                <input type="hidden" id="adddataid" value="0"/>
+            </div>
+            <div class="modal-footer">
+                <a id="gogogo">已有账号，前往登录</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="addform"/>
+                注册
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 选择你的需求<br/><br/>
 <label><input name="xq" type="radio" value="靠窗"/>靠窗 </label>
 <label><input name="xq" type="radio" value="靠过道"/>靠过道(腿部宽敞) </label>
@@ -128,6 +158,7 @@
             ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
     }
 
+    //登录
     $(function () {
         $('.select2').select2();
         // $('li').arrangeable({dragSelector: '.select2-selection__choice__remove'});
@@ -208,181 +239,181 @@
         })
     };
     //查询飞机布局及座位状态
-    $('#search').click(function () {
-        $("#xiala").val();//获取当前选择项的值.
-        var options = $("#xiala option:selected");//获取当前选择项.
-        var searchName = options.val();//获取当前选择项的值.
-        // = $("#text").val();
-        $.ajax({
-            type: "post",
-            url: "http://localhost:9999/index/p",
-            data: {plane_type: searchName},
-            success: function (result) {//ajax请求成功后触发的方法
-                console.log(result);
-                var html = "";
-                var l1 = result.data.length;
-                for (var i = 0; i < result.data.length; i++) {
-                    html += "<tr id=\"tou\" class=\"tou\" >";
-                    var l2 = result.data[0].length
-                    // for (var j = 0; j < result.data[i].length; j++) {
-                    $.each(result.data[i], function (index, value) {
-                        if (value.seatType == 0) {
-                            if (value.seatYn == 1) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "小路";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "' isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatWindow == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "窗";
-                                html += "<img src='/../../toudengseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatAisle == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "过道";
-                                html += "<img src='/../../toudengseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatBaby == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "婴儿";
-                                html += "<img src='/../../toudengseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatExit == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "紧急";
-                                html += "<img src='/../../toudengseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatGate == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "登机口";
-                                html += "<img src='/../../toudengseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "<img src='/../../toudengseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            }
-                        }
-                        if (value.seatType == 1) {
-                            if (value.seatYn == 1) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "小路";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatWindow == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "窗";
-                                html += "<img src='/../../shangwuseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatAisle == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "过道";
-                                html += "<img src='/../../shangwuseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatBaby == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "婴儿";
-                                html += "<img src='/../../shangwuseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatExit == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "紧急";
-                                html += "<img src='/../../shangwuseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatGate == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "登机口";
-                                html += "<img src='/../../shangwuseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "<img src='/../../shangwuseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            }
-                        }
-                        if (value.seatType == 2) {
-                            if (value.seatYn == 1) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "小路";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatWindow == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "窗";
-                                html += "<img src='/../../shangseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatAisle == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "过道";
-                                html += "<img src='/../../shangseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatBaby == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "婴儿";
-                                html += "<img src='/../../shangseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatExit == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "紧急";
-                                html += "<img src='/../../shangseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else if (value.seatGate == 0) {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "登机口";
-                                html += "<img src='/../../shangseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            } else {
-                                html += "<td style='border:1px red solid' width='80px' >";
-                                html += "<img src='/../../shangseat.png'>";
-                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
-                                html += "</td>";
-                            }
-                        }
-                    });
-                    html += "</tr>";
-                }
-                $("#seatstable").html(html);
-                var b_isseat = {}
-                $(".isseat").each(function (index, value) {
-                    b_isseat[index] = value.attributes.isseat.nodeValue;
-                    if (b_isseat[index] == 0) {
-                        b_isseat[index].style.color = 'red';
-                    } else {
-                        b_isseat[index].style.color = "green";
-                    }
-                });
-                console.log(b_isseat);
-                // var a_isseat = document.getElementsByClassName("isseat");  //获取文档中class为“isseat”的所有元素
-                // for (var s = 0; s < a_isseat.length; s++) {
-                //     if (a_isseat[s].attributes.isseat.nodeValue == 0) {
-                //         a_isseat[s].style.color = "red";
-                //     } else {
-                //         a_isseat[s].style.color = "green";
-                //     }
-                // }
-            },
-            error: function (data) {
-                alert("error")
-            }
-        });
-    })
+    // $('#search').click(function () {
+    //     $("#xiala").val();//获取当前选择项的值.
+    //     var options = $("#xiala option:selected");//获取当前选择项.
+    //     var searchName = options.val();//获取当前选择项的值.
+    //     // = $("#text").val();
+    //     $.ajax({
+    //         type: "post",
+    //         url: "http://localhost:9999/index/p",
+    //         data: {plane_type: searchName},
+    //         success: function (result) {//ajax请求成功后触发的方法
+    //             console.log(result);
+    //             var html = "";
+    //             var l1 = result.data.length;
+    //             for (var i = 0; i < result.data.length; i++) {
+    //                 html += "<tr id=\"tou\" class=\"tou\" >";
+    //                 var l2 = result.data[0].length
+    //                 // for (var j = 0; j < result.data[i].length; j++) {
+    //                 $.each(result.data[i], function (index, value) {
+    //                     if (value.seatType == 0) {
+    //                         if (value.seatYn == 1) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "小路";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "' isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatWindow == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "窗";
+    //                             html += "<img src='/../../toudengseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatAisle == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "过道";
+    //                             html += "<img src='/../../toudengseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatBaby == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "婴儿";
+    //                             html += "<img src='/../../toudengseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatExit == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "紧急";
+    //                             html += "<img src='/../../toudengseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatGate == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "登机口";
+    //                             html += "<img src='/../../toudengseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "<img src='/../../toudengseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         }
+    //                     }
+    //                     if (value.seatType == 1) {
+    //                         if (value.seatYn == 1) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "小路";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatWindow == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "窗";
+    //                             html += "<img src='/../../shangwuseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatAisle == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "过道";
+    //                             html += "<img src='/../../shangwuseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatBaby == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "婴儿";
+    //                             html += "<img src='/../../shangwuseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatExit == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "紧急";
+    //                             html += "<img src='/../../shangwuseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatGate == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "登机口";
+    //                             html += "<img src='/../../shangwuseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "<img src='/../../shangwuseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         }
+    //                     }
+    //                     if (value.seatType == 2) {
+    //                         if (value.seatYn == 1) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "小路";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatWindow == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "窗";
+    //                             html += "<img src='/../../shangseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatAisle == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "过道";
+    //                             html += "<img src='/../../shangseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatBaby == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "婴儿";
+    //                             html += "<img src='/../../shangseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatExit == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "紧急";
+    //                             html += "<img src='/../../shangseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else if (value.seatGate == 0) {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "登机口";
+    //                             html += "<img src='/../../shangseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         } else {
+    //                             html += "<td style='border:1px red solid' width='80px' >";
+    //                             html += "<img src='/../../shangseat.png'>";
+    //                             html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+    //                             html += "</td>";
+    //                         }
+    //                     }
+    //                 });
+    //                 html += "</tr>";
+    //             }
+    //             $("#seatstable").html(html);
+    //             var b_isseat = {}
+    //             $(".isseat").each(function (index, value) {
+    //                 b_isseat[index] = value.attributes.isseat.nodeValue;
+    //                 if (b_isseat[index] == 0) {
+    //                     b_isseat[index].style.color = 'red';
+    //                 } else {
+    //                     b_isseat[index].style.color = "green";
+    //                 }
+    //             });
+    //             console.log(b_isseat);
+    //             // var a_isseat = document.getElementsByClassName("isseat");  //获取文档中class为“isseat”的所有元素
+    //             // for (var s = 0; s < a_isseat.length; s++) {
+    //             //     if (a_isseat[s].attributes.isseat.nodeValue == 0) {
+    //             //         a_isseat[s].style.color = "red";
+    //             //     } else {
+    //             //         a_isseat[s].style.color = "green";
+    //             //     }
+    //             // }
+    //         },
+    //         error: function (data) {
+    //             alert("error")
+    //         }
+    //     });
+    // })
     //单人选座
     var searchName = null;
     $('#okk').click(function () {
@@ -460,7 +491,67 @@
         //启用多选模式
         multiple: true,
     });
-
+    //新增用户
+    $('#addform').click(function () {
+        var addusername = $("#addusername").val();
+        var addpassword = $("#addpassword").val();
+        var addrealname = $("#addrealname").val();
+        var addage = $("#addage").val();
+        var addsex = $("#addsex").val();
+        if (addusername == "") {
+            alert("用户名不能为空");
+            return;
+        }
+        if (addpassword == "") {
+            alert("密码不能为空")
+            return;
+        }
+        if (addrealname == "") {
+            alert("姓名不能为空")
+            return;
+        }
+        if (addage == "") {
+            alert("年龄不能为空")
+            return;
+        }
+        if (addsex == "") {
+            alert("性别不能为空")
+            return;
+        }
+        var addone = {
+            "username": addusername,
+            "password": addpassword,
+            "sex": addsex,
+            "name": addrealname,
+            "age": addage
+        };
+        console.log(addone);
+        $.ajax({
+            type: "post",
+            url: "../userinfo/add",
+            data: JSON.stringify(addone),
+            contentType: "application/json; charset=utf-8",
+            type: "json",       //后台处理后返回的数据格式
+            success: function (result) {//ajax请求成功后触发的方法
+                if (result.status == 0) {
+                    alert('新增用户成功');
+                    dopage(1);
+                    $('#myAddModal').modal('hide');
+                } else{
+                    alert(result.msg)
+                    // $('#myAddModal').modal('hide');
+                }
+            },
+            error: function (result) {
+                alert("新增用户失败")
+            }
+        });
+    });
+    //链接到登录模态框
+    $('#gogogo').click(function () {
+        $('#myAddModal').modal('hide');
+        $('#myLoginModal').modal('show');
+    })
 
 </script>
 </html>

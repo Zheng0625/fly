@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>个人信息</title>
+    <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+
+    <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/2.3.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../../outlink/selectpage.css" type="text/css">
+
+    <link rel="stylesheet" href="../../outlink/demo.css"/>
+
+    <link rel="stylesheet" href="../../outlink/pagination.css"/>
+</head>
+<style>
+    body {
+        background-image: url("../../outlink/img/plane_myths_big.jpg");
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-width: 1000px;
+        z-index: -10;
+        zoom: 1;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
+        background-position: center 0;
+    }
+</style>
+<body>
+<div class="top" style="height:35px;width: 100%;">
+    <div class="loginSuccess" id="loginSuccess" style="float: right;margin-right: 10px;margin-top: 10px">
+        <!--登录成功后显示用户信息-->
+    </div>
+</div>
+<div class="middle" style="margin-top: 30px">
+    <section style="width:30%;float: left">
+        <center><span style="font-size: 35px;">个人订单</span>
+        <table border="1" id="res" class="table table-bordered table-hover" style="margin-top: 15px">
+            <tr>
+                <th style="width:20%">航班名称</th>
+                <th style="width:20%">排</th>
+                <th style="width:20%">列</th>
+            </tr>
+            <tbody id="userOrder">
+
+            </tbody>
+        </table>
+        <!--分页-->
+            <div class="m-style M-box11" id="userOrder_fy"></div>
+        </center>
+
+    </section>
+    <section style="width: 70%;float: right">
+        <center>
+            <span style="font-size: 35px">个人信息</span></br>
+            <table border="1" id="resinfo" class="table table-bordered table-hover" style="margin-top: 15px">
+                <tr>
+                    <th style="width:20%">用户名</th>
+                    <th style="width:20%">姓名</th>
+                    <th style="width:20%">年龄</th>
+                    <th style="width:20%">性别</th>
+                </tr>
+                <tbody id="userInfo">
+
+                </tbody>
+            </table>
+
+        </center>
+
+        <center>
+            <span style="font-size: 35px">个人历史需求</span></br>
+            <table border="1" id="xuqiu" class="table table-bordered table-hover" style="margin-top: 15px">
+                <tr>
+                    <th style="width:4%">前排</th>
+                    <th style="width:10%">四周无婴儿</th>
+                    <th style="width:10%">四周有男性</th>
+                    <th style="width:10%">四周有女性</th>
+                    <th style="width:6%">登机口</th>
+                    <th style="width:8%">紧急出口</th>
+                    <th style="width:4%">靠窗</th>
+                    <th style="width:6%">靠过道</th>
+                    <th style="width:8%">腿部宽敞</th>
+                    <th style="width:8%">婴儿挂载</th>
+                    <th style="width:8%">乘坐人数</th>
+                </tr>
+                <tbody id="userDemand">
+
+                </tbody>
+            </table>
+
+            <div class="m-style M-box11" id="userDemand_fy"></div><!--分页-->
+        </center>
+
+    </section>
+</div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../outlink/jquery.pagination.js"></script>
+<script src="../../outlink/jquery.cookie.js"></script>
+<script th:inline="javascript">
+    var isCookie = $.cookie('username'); // 读取"userName"的cookie值
+    //网页加载时运行
+    window.onload = function () {
+        var html = "";     //添加用户信息
+        html += " <span class=\"hidden-xs\" style='font-size:30px ' >欢迎您,&nbsp;</span>";
+        html += " <span class=\"hidden-xs userinfo\" id=\"uname\" style='color: black;font-size:30px '>" + isCookie + "</span>";
+        html += "   ";
+        html += "<input type=\"button\" id=\"loginoutbtn\" class=\"btn btn-info \" value=\"退出\" />";
+        $('#loginSuccess').html(html);
+        dopage_userOrder(1);   //执行订单分页
+        dopage_userDemand(1);   //执行需求分页
+
+        //查询用户信息
+        var p_userInfo = {"str": isCookie, "pageNum": 0}
+        $.ajax({
+            type: "post",
+            url: "../userinfo/selectUserInfo",
+            data: JSON.stringify(p_userInfo),
+            contentType: "application/json; charset=utf-8",
+            type: "json",
+            success: function (result) {
+                if (result.status == 0) {
+                    console.log(result);
+                    var html2 = "";
+                    var listinfo = result.data;  //后端返回用户信息
+                    if (listinfo.uName != "") {   //展示用户信息
+                        if (listinfo.uSex == 1) {
+                            listinfo.uSex = "女";
+                        } else {
+                            listinfo.uSex = "男";
+                        }
+                        html2 += "<tr>";
+                        html2 += "<td>";
+                        html2 += listinfo.uUsername;
+                        html2 += "</td>";
+                        html2 += "<td>";
+                        html2 += listinfo.uName;
+                        html2 += "</td>";
+                        html2 += "<td>";
+                        html2 += listinfo.uAge;
+                        html2 += "</td>";
+                        html2 += "<td>";
+                        html2 += listinfo.uSex;
+                        html2 += "</td>";
+                        html2 += "</tr>";
+                        $("#userInfo").html(html2);
+                    } else {
+                        alert("个人信息查询失败，请重试");
+                    }
+
+                }
+                if (result.status == -1) {
+                    alert(result.msg);
+                    $("#userOrder").html("");
+                    $('#myModal').modal('hide');
+                }
+            },
+            error: function () {
+                alert("查询失败，请重试");
+            }
+        })
+        //退出操作
+        $('#loginoutbtn').click(function () {
+            console.log("已退出");
+            $.cookie("username", "", -1);  //退出时删除cookie并刷新网页
+            window.location.href = "../index/plane"; //跳转首页
+        })
+    }
+
+    //订单分页方法
+    function dopage_userOrder(page) {
+        var p_userOrder = {"str": isCookie, "pageNum": page}
+        $.ajax({
+            type: "post",
+            url: "../userinfo/selectOrder",
+            data: JSON.stringify(p_userOrder),
+            contentType: "application/json; charset=utf-8",
+            type: "json",       //后台处理后返回的数据格式
+            success: function (result) {//ajax请求成功后触发的方法
+                console.log('请求成功');
+                console.log(result);
+                var order_yeshu = result.lastPage;
+                //分页
+                $('#userOrder_fy').pagination({
+                    mode: 'fixed',
+                    pageCount: order_yeshu,
+                    current: page,
+                    callback: function (api) {
+                        dopage_userOrder(api.getCurrent());
+                    }
+                });
+                var html = "";
+                var listall = result.list  //后端返回用户订单数组
+                if (listall.length > 0) {   //展示
+                    $.each(listall, function (index, value) {  //循环遍历listAll 并添加html标签
+                        html += "<tr>";
+                        html += "<td>";
+                        html += value.selectOrderResultMap.plane_name;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.selectOrderResultMap.seat_locationx + "排";
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.selectOrderResultMap.seat_locationy + "列";
+                        html += "</td>";
+                        html += "</tr>";
+                    });
+                    $("#userOrder").html(html);
+                } else {
+                    alert("您暂无订单记录");
+                    $("#userOrder").html(html);
+                }
+            },
+            error: function () {
+                alert("查询失败，请重试");
+            }
+        });
+    }
+
+    //需求分页方法
+    function dopage_userDemand(page) {
+        var p_userOrder = {"str": isCookie, "pageNum": page}
+        $.ajax({
+            type: "post",
+            url: "../userinfo/selectDemand",
+            data: JSON.stringify(p_userOrder),
+            contentType: "application/json; charset=utf-8",
+            type: "json",       //后台处理后返回的数据格式
+            success: function (result) {//ajax请求成功后触发的方法
+                console.log('请求成功');
+                console.log(result);
+                var demand_yeshu = result.lastPage;
+                //分页
+                $('#userDemand_fy').pagination({
+                    mode: 'fixed',
+                    pageCount: demand_yeshu,
+                    current: page,
+                    callback: function (api) {
+                        userDemand_fy(api.getCurrent());
+                    }
+                });
+                var html1 = "";
+                var listxuqiu = result.list; //后端返回用户需求数组
+                if (listxuqiu.length > 0) {  //展示
+                    $.each(listxuqiu, function (index, value) {
+                        if (value.demandFront == 0) {
+                            var demandFront = "√"
+                        } else {
+                            demandFront = "×"
+                        }
+                        if (value.demandNobaby == 0) {
+                            var demandNobaby = "√"
+                        } else {
+                            demandNobaby = "×"
+                        }
+                        if (value.demandMen == 0) {
+                            var demandMen = "√"
+                        } else {
+                            demandMen = "×"
+                        }
+                        if (value.demandWomen == 0) {
+                            var demandWomen = "√"
+                        } else {
+                            demandWomen = "×"
+                        }
+                        if (value.demandGate == 0) {
+                            var demandGate = "√"
+                        } else {
+                            demandGate = "×"
+                        }
+                        if (value.demandExit == 0) {
+                            var demandExit = "√"
+                        } else {
+                            demandExit = "×"
+                        }
+                        if (value.demandWindow == 0) {
+                            var demandWindow = "√"
+                        } else {
+                            demandWindow = "×"
+                        }
+                        if (value.demandAisle == 0) {
+                            var demandAisle = "√"
+                        } else {
+                            demandAisle = "×"
+                        }
+                        if (value.demandSpacious == 0) {
+                            var demandSpacious = "√"
+                        } else {
+                            demandSpacious = "×"
+                        }
+                        if (value.demandBaby == 0) {
+                            var demandBaby = "√"
+                        } else {
+                            demandBaby = "×"
+                        }
+                        html1 += "<tr>";
+                        html1 += "<td>";
+                        html1 += demandFront;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandNobaby;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandMen;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandWomen;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandGate;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandExit;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandWindow;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandAisle;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandSpacious;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += demandBaby;
+                        html1 += "</td>";
+                        html1 += "<td>";
+                        html1 += value.demandRenshu;
+                        html1 += "</td>";
+                        html1 += "</tr>";
+                    });
+                    $("#userDemand").html(html1);
+                } else {
+                    alert("您暂无历史需求");
+                    $("#userDemand").html(html1);
+                }
+            },
+            error: function () {
+                alert("查询失败，请重试");
+            }
+        });
+    }
+
+</script>
+</html>

@@ -38,9 +38,11 @@ public interface FSeattypeMapper {
 
     List<FSeattype> selectBySeat(FSeattype record);
 
-    Long findSeatCount(int planeId);
+    int findSeatCount(int planeId);
 
     ArrayList<FSeattype> findMoreSeat(MoreSeat moreSeat);
 
     List<FSeattype> searchOrderSeat(SearchSeatInput searchSeatInput);
+
+    FSeattype selectBySeatId(int seat_id);
 }

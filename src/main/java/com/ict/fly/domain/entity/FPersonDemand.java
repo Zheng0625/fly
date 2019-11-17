@@ -75,6 +75,16 @@ public class FPersonDemand implements Serializable {
      */
     private Integer demandBaby;
 
+    /**
+     * 全部需求
+     */
+    private String demandAll;
+
+    /**
+     * 满足的需求
+     */
+    private String demandManzu;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getDemandId() {
@@ -197,6 +207,22 @@ public class FPersonDemand implements Serializable {
         this.demandBaby = demandBaby;
     }
 
+    public String getDemandAll() {
+        return demandAll;
+    }
+
+    public void setDemandAll(String demandAll) {
+        this.demandAll = demandAll;
+    }
+
+    public String getDemandManzu() {
+        return demandManzu;
+    }
+
+    public void setDemandManzu(String demandManzu) {
+        this.demandManzu = demandManzu;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -223,7 +249,9 @@ public class FPersonDemand implements Serializable {
             && (this.getDemandExit() == null ? other.getDemandExit() == null : this.getDemandExit().equals(other.getDemandExit()))
             && (this.getDemandSpacious() == null ? other.getDemandSpacious() == null : this.getDemandSpacious().equals(other.getDemandSpacious()))
             && (this.getDemandGate() == null ? other.getDemandGate() == null : this.getDemandGate().equals(other.getDemandGate()))
-            && (this.getDemandBaby() == null ? other.getDemandBaby() == null : this.getDemandBaby().equals(other.getDemandBaby()));
+            && (this.getDemandBaby() == null ? other.getDemandBaby() == null : this.getDemandBaby().equals(other.getDemandBaby()))
+            && (this.getDemandAll() == null ? other.getDemandAll() == null : this.getDemandAll().equals(other.getDemandAll()))
+            && (this.getDemandManzu() == null ? other.getDemandManzu() == null : this.getDemandManzu().equals(other.getDemandManzu()));
     }
 
     @Override
@@ -245,6 +273,8 @@ public class FPersonDemand implements Serializable {
         result = prime * result + ((getDemandSpacious() == null) ? 0 : getDemandSpacious().hashCode());
         result = prime * result + ((getDemandGate() == null) ? 0 : getDemandGate().hashCode());
         result = prime * result + ((getDemandBaby() == null) ? 0 : getDemandBaby().hashCode());
+        result = prime * result + ((getDemandAll() == null) ? 0 : getDemandAll().hashCode());
+        result = prime * result + ((getDemandManzu() == null) ? 0 : getDemandManzu().hashCode());
         return result;
     }
 
@@ -269,6 +299,8 @@ public class FPersonDemand implements Serializable {
         sb.append(", demandSpacious=").append(demandSpacious);
         sb.append(", demandGate=").append(demandGate);
         sb.append(", demandBaby=").append(demandBaby);
+        sb.append(", demandAll=").append(demandAll);
+        sb.append(", demandManzu=").append(demandManzu);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

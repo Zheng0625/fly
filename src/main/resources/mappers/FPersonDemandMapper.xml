@@ -17,6 +17,8 @@
     <result column="demand_spacious" jdbcType="INTEGER" property="demandSpacious" />
     <result column="demand_gate" jdbcType="INTEGER" property="demandGate" />
     <result column="demand_baby" jdbcType="INTEGER" property="demandBaby" />
+    <result column="demand_all" jdbcType="VARCHAR" property="demandAll" />
+    <result column="demand_manzu" jdbcType="VARCHAR" property="demandManzu" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +81,7 @@
   <sql id="Base_Column_List">
     demand_id, userinfo_id, order_id, plane_id, demand_renshu, demand_women, demand_men, 
     demand_nobaby, demand_window, demand_aisle, demand_front, demand_exit, demand_spacious, 
-    demand_gate, demand_baby
+    demand_gate, demand_baby, demand_all, demand_manzu
   </sql>
   <select id="selectByExample" parameterType="com.ict.fly.domain.entity.FPersonDemandExample" resultMap="BaseResultMap">
     select
@@ -124,14 +126,14 @@
       plane_id, demand_renshu, demand_women, 
       demand_men, demand_nobaby, demand_window, 
       demand_aisle, demand_front, demand_exit, 
-      demand_spacious, demand_gate, demand_baby
-      )
+      demand_spacious, demand_gate, demand_baby, 
+      demand_all, demand_manzu)
     values (#{demandId,jdbcType=INTEGER}, #{userinfoId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
       #{planeId,jdbcType=INTEGER}, #{demandRenshu,jdbcType=INTEGER}, #{demandWomen,jdbcType=INTEGER}, 
       #{demandMen,jdbcType=INTEGER}, #{demandNobaby,jdbcType=INTEGER}, #{demandWindow,jdbcType=INTEGER}, 
       #{demandAisle,jdbcType=INTEGER}, #{demandFront,jdbcType=INTEGER}, #{demandExit,jdbcType=INTEGER}, 
-      #{demandSpacious,jdbcType=INTEGER}, #{demandGate,jdbcType=INTEGER}, #{demandBaby,jdbcType=INTEGER}
-      )
+      #{demandSpacious,jdbcType=INTEGER}, #{demandGate,jdbcType=INTEGER}, #{demandBaby,jdbcType=INTEGER}, 
+      #{demandAll,jdbcType=VARCHAR}, #{demandManzu,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ict.fly.domain.entity.FPersonDemand">
     insert into f_person_demand
@@ -181,6 +183,12 @@
       <if test="demandBaby != null">
         demand_baby,
       </if>
+      <if test="demandAll != null">
+        demand_all,
+      </if>
+      <if test="demandManzu != null">
+        demand_manzu,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="demandId != null">
@@ -227,6 +235,12 @@
       </if>
       <if test="demandBaby != null">
         #{demandBaby,jdbcType=INTEGER},
+      </if>
+      <if test="demandAll != null">
+        #{demandAll,jdbcType=VARCHAR},
+      </if>
+      <if test="demandManzu != null">
+        #{demandManzu,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -284,6 +298,12 @@
       <if test="record.demandBaby != null">
         demand_baby = #{record.demandBaby,jdbcType=INTEGER},
       </if>
+      <if test="record.demandAll != null">
+        demand_all = #{record.demandAll,jdbcType=VARCHAR},
+      </if>
+      <if test="record.demandManzu != null">
+        demand_manzu = #{record.demandManzu,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -305,7 +325,9 @@
       demand_exit = #{record.demandExit,jdbcType=INTEGER},
       demand_spacious = #{record.demandSpacious,jdbcType=INTEGER},
       demand_gate = #{record.demandGate,jdbcType=INTEGER},
-      demand_baby = #{record.demandBaby,jdbcType=INTEGER}
+      demand_baby = #{record.demandBaby,jdbcType=INTEGER},
+      demand_all = #{record.demandAll,jdbcType=VARCHAR},
+      demand_manzu = #{record.demandManzu,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -355,6 +377,12 @@
       <if test="demandBaby != null">
         demand_baby = #{demandBaby,jdbcType=INTEGER},
       </if>
+      <if test="demandAll != null">
+        demand_all = #{demandAll,jdbcType=VARCHAR},
+      </if>
+      <if test="demandManzu != null">
+        demand_manzu = #{demandManzu,jdbcType=VARCHAR},
+      </if>
     </set>
     where demand_id = #{demandId,jdbcType=INTEGER}
   </update>
@@ -373,7 +401,19 @@
       demand_exit = #{demandExit,jdbcType=INTEGER},
       demand_spacious = #{demandSpacious,jdbcType=INTEGER},
       demand_gate = #{demandGate,jdbcType=INTEGER},
-      demand_baby = #{demandBaby,jdbcType=INTEGER}
+      demand_baby = #{demandBaby,jdbcType=INTEGER},
+      demand_all = #{demandAll,jdbcType=VARCHAR},
+      demand_manzu = #{demandManzu,jdbcType=VARCHAR}
     where demand_id = #{demandId,jdbcType=INTEGER}
   </update>
+
+  <select id="selPersonDemand" resultMap="BaseResultMap" parameterType="int" resultType="com.ict.fly.domain.entity.FPersonDemand">
+        select * from f_person_demand where plane_id = #{planeId};
+    </select>
+  <delete id="delectByPlaneId" parameterType="int" >
+        delete from f_person_demand WHERE plane_id = #{planeId};
+    </delete>
+  <select id="select_Demand" resultMap="BaseResultMap" parameterType="int" resultType="com.ict.fly.domain.entity.FPersonDemand">
+        SELECT * FROM f_person_demand WHERE userinfo_id = #{userinfoId};
+  </select>
 </mapper>

@@ -3,6 +3,8 @@ package com.ict.fly.dao;
 import com.ict.fly.domain.entity.FUserinfo;
 import com.ict.fly.domain.entity.FUserinfoExample;
 import java.util.List;
+
+import com.ict.fly.domain.input.SelectOrderResultMap;
 import org.apache.ibatis.annotations.Param;
 
 public interface FUserinfoMapper {
@@ -35,4 +37,11 @@ public interface FUserinfoMapper {
     int updateByPrimaryKey(FUserinfo record);
 
     FUserinfo findByUsername(String username);
+
+    List<FUserinfo> selectAll();
+
+    List<FUserinfo> selectVIP(Integer u_vip);
+
+    List<SelectOrderResultMap> selectOrder(Integer userinfoId);
+
 }

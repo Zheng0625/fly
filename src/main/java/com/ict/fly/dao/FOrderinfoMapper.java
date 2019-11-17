@@ -32,7 +32,11 @@ public interface FOrderinfoMapper {
 
     FOrderinfo findBySeatId(Integer seat_id);
 
-    List<FOrderinfo> findByPlaneType(String planeType);
+    List<FOrderinfo> findByPlaneName(String planeName);
 
-    long findOrderCount(String plane_type);
+    long findOrderCount(String plane_name);
+
+    int delectByPlaneName(String plane_name);
+
+    List<FOrderinfo> findPlaneOrder(String plane_name);
 }

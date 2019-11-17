@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--声明使用thymeleaf-->
+<head th:replace="webtest/head::copyhead"></head>   <!--thymeleaf公共模板-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div th:include="webtest/header::copyheader"></div>
+<div class="content-wrapper">
+    <center><span style="font-size: 35px">普通用户信息管理</span></center>
+    <div style="border-bottom: 1px solid; width: 100%"></div>
+    <section class="content" style="display: flex;">
+        <div class="row">
+            <section class="col-lg-7 connectedSortable">
+                <table class="table-hover">
+                    <th><input type="text" id="searchinput" name="searchinput"></th>
+                    <th><input type="button" id="searchbtn" name="searchbtn" value="Search" class="btn btn-primary"/>
+                    </th>
+                    <th><input type="button" id="addbtn" name="addbtn" class="btn btn-info" data-toggle="modal"
+                               data-target="#myAddModal" value="新增"/></th>
+                </table>
+
+                <div class="modal fade" id="myAddModal" tabindex="-1" role="dialog"
+                     aria-labelledby="myAddModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;
+                                </button>
+                                <h4 class="modal-title" id="myAddModalLabel">请输入用户信息</h4>
+                            </div>
+                            <div class="modal-body">
+                                用户名：<input type="text" name="dupusername" id="addusername" value=""/><br/>
+                                密&#12288;码：<input type="text" name="duppassword" id="addpassword" value=""/><br/>
+                                姓&#12288;名：<input type="text" name="duprealname" id="addrealname" value=""/><br/>
+                                年&#12288;龄：<input type="text" name="dupage" id="addage" value=""/><br/>
+                                性&#12288;别：<input type="text" name="dupsex" id="addsex" value=""/><br/>
+                                <input type="hidden" id="adddataid" value="0"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary" id="addform"/>
+                                新增
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table border="1" id="res" class="table table-bordered table-hover" style="width:1500px">
+                    <tr>
+                        <th style="width:15%">ID</th>
+                        <th style="width:25%">用户名</th>
+                        <th style="width:30%">姓名</th>
+                        <th style="width:15%">性别</th>
+                        <th style="width:15%">年龄</th>
+                        <th style="min-width:100px;">操作</th>
+                    </tr>
+                    <tbody id="list_content"></tbody>
+                </table>
+                <!--分页-->
+                <!--<div class="m-style M-box11"></div>-->
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">请输入修改内容</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="dataid" value="0"/>
+
+                                I&#12288;&#12288;D：<input type="text" value="" id="updateid"
+                                                          readonly="readonly"/><br/>
+                                用户名：<input type="text" name="dupusername" id="dupusername" readonly="readonly"
+                                           value=""/><br/>
+                                姓&#12288;名：<input type="text" name="dupname" id="dupname" value=""
+                                readonly="readonly"/><br/>
+                                年&#12288;龄：<input type="text" name="dupage" id="dupage" value=""/><br/>
+                                性&#12288;别：<input type="text" name="dupsex" id="dupsex" value=""/><br/>
+                                <!--<div class="switch-container">-->
+                                    <!--VIP用户:-->
+                                    <!--<input id="switch" type="checkbox" class="switch"/>-->
+                                    <!--<label for="switch" onclick="test()"></label>-->
+                                <!--</div>-->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary" id="updateform"/>
+                                提交更改
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+</div>
+<!--/*js/bootstrap.min.js的引入必须放在jquery.js的后面，modal(hide)才能正常使用  */-->
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="../../outlink/jquery.pagination.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript" th:inline="javascript">
+    //修改
+    $('#updateform').click(function () {
+        var updateid = $("#updateid").val();
+        var username = $("#dupusername").val();
+        var name = $("#dupname").val();
+        var userage = $("#dupage").val();
+        var usersex = $("#dupsex").val();
+        if (username == "") {
+            alert("用户名不能为空")
+            return;
+        }
+        if (name == "") {
+            alert("姓名不能为空")
+            return;
+        }
+        if (userage == "") {
+            alert("年龄不能为空")
+            return;
+        }
+        if (usersex == "") {
+            alert("性别不能为空")
+            return;
+        }
+        var updateall = {
+            "id": updateid,
+            "name": name,
+            "age": userage,
+            "sex": usersex,
+        };
+        console.log(updateall);
+        $.ajax({
+            type: "post",
+            url: "/userinfo/update",
+            data: JSON.stringify(updateall),
+            contentType: "application/json; charset=utf-8",
+            type: "json",
+            success: function (data) {//ajax请求成功后触发的方法
+                if (data.status == 0) {
+                    alert('数据修改成功');
+                    $('#myModal').modal('hide');
+                    dopage(1);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                alert("数据修改失败")
+            }
+        });
+    })
+    var yeshu = [[ ${yeshu}]];      //thymeleaf  与  js  一起使用  获取查询总页数
+    $('.M-box11').pagination({
+        mode: 'fixed',
+        pageCount: yeshu,
+        current: 1,
+        // prevCls : "上一页",
+        // nextCls : "下一页",
+        callback: function (api) {
+            dopage(api.getCurrent());
+        }
+    });
+    dopage(1);
+
+    function dopage(page) {
+        var x = document.getElementById("searchinput");
+        var p = {"pattern": x.value, "page": page}
+        $.ajax({
+            type: "get",
+            url: "selnoVIP",
+            contentType: "application/json; charset=utf-8",
+            type: "json",       //后台处理后返回的数据格式
+            success: function (result) {//ajax请求成功后触发的方法
+                console.log('请求成功');
+                if (result.status == 0) {
+                    $("#list_content").html("");    //清空id = list_content 区域代码
+                    // $('.M-box11').pagination({
+                    //     mode: 'fixed',
+                    //     pageCount: data.result.yeshu,
+                    //     current: page,
+                    //     callback: function (api) {
+                    //         dopage(api.getCurrent());
+                    //     }
+                    // });
+                    if (result.data.length == 0) {
+                        alert("查询结果为空！");
+                        return;
+                    }
+                    var html = "";
+                    var listall = result.data;  //后端返回listAll数组
+                    $.each(listall, function (index, value) {  //循环遍历listAll 并添加html标签
+                        if (value.uSex == 0) {
+                            value.uSex = "男";
+                        } else {
+                            value.uSex = "女";
+                        }
+                        html += "<tr>";
+                        html += "<td>";
+                        html += value.userinfoId;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.uUsername;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.uName;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.uSex;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.uAge;
+                        html += "</td>";
+                        html += "<td>";                                                    //自定义dataid username 等标签  通过thymeleaf查询、获取
+                        html += "<input type=\"button\" dataid='" + value.userinfoId + "' username ='" + value.uUsername + "' name ='" + value.uName + "' age ='" + value.uAge + "' sex='" + value.uSex + "' name=\"updatebtn\" id=\"updatebtn\" class=\"btn btn-warning updatebtn\" value=\"修改\"/>";
+                        html += "</td>";
+                        html += "</tr>";
+                    });
+                    $("#list_content").html(html);   //添加id = list_content 区域代码
+                    $('.updatebtn').click(function () {   //使用class选择器！
+                        $('#myModal').modal();
+                        var idindex = $(this).attr("dataid");   //获取属性为dataid的值
+                        var usernameupdate = $(this).attr("username");
+                        var nameupdate = $(this).attr("name");
+                        var ageupdate = $(this).attr("age");
+                        var sexupdate = $(this).attr("sex");
+                        $("#updateid").val(idindex);         //赋值给id = updateid的input
+                        $("#dupusername").val(usernameupdate);
+                        $("#dupname").val(nameupdate);
+                        $("#dupage").val(ageupdate);
+                        $("#dupsex").val(sexupdate);
+                    })
+
+                    // $('.deletebtn').click(function () {
+                    //     var idindex = $(this).attr("dataid");  //获取属性为dataid的值
+                    //     var idback = {"id": idindex};
+                    //     $.ajax({
+                    //         type: "post",
+                    //         url: "delete",
+                    //         data: JSON.stringify(idback),
+                    //         contentType: "application/json; charset=utf-8",
+                    //         type: "json",
+                    //         success: function (data) {
+                    //             if (data.code == 1) {
+                    //                 alert("删除成功")
+                    //                 dopage(1);
+                    //
+                    //             }
+                    //         },
+                    //         error: function (data) {
+                    //             if (data.code == -1) {
+                    //                 alert("删除失败")
+                    //             }
+                    //         }
+                    //     })
+                    // })
+                }
+            },
+            error: function (data) {     //ajax请求失败后触发的方法
+                alert("失败");//弹出错误信息
+            }
+        });
+    }
+
+    $('#searchbtn').click(function () {
+
+    })
+    //新增用户
+    $('#addform').click(function () {
+        var addusername = $("#addusername").val();
+        var addpassword = $("#addpassword").val();
+        var addrealname = $("#addrealname").val();
+        var addage = $("#addage").val();
+        var addsex = $("#addsex").val();
+        if (addusername == "") {
+            alert("用户名不能为空");
+            return;
+        }
+        if (addpassword == "") {
+            alert("密码不能为空")
+            return;
+        }
+        if (addrealname == "") {
+            alert("姓名不能为空")
+            return;
+        }
+        if (addage == "") {
+            alert("年龄不能为空")
+            return;
+        }
+        if (addsex == "") {
+            alert("性别不能为空")
+            return;
+        }
+        var addone = {
+            "username": addusername,
+            "password": addpassword,
+            "sex": addsex,
+            "name": addrealname,
+            "age": addage
+        };
+        console.log(addone);
+        $.ajax({
+            type: "post",
+            url: "../userinfo/add",
+            data: JSON.stringify(addone),
+            contentType: "application/json; charset=utf-8",
+            type: "json",       //后台处理后返回的数据格式
+            success: function (result) {//ajax请求成功后触发的方法
+                if (result.status == 0) {
+                    alert('新增用户成功');
+                    dopage(1);
+                    $('#myAddModal').modal('hide');
+                }
+                if (result.status == -1) {
+                    alert(result.msg)
+                    // $('#myAddModal').modal('hide');
+                }
+            },
+            error: function (result) {
+                alert("新增用户失败")
+            }
+        });
+    });
+</script>
+</body>
+</html>

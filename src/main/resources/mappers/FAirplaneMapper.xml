@@ -249,9 +249,9 @@
     where plane_id = #{planeId,jdbcType=INTEGER}
   </update>
   <select id="findByName" parameterType="string" resultType="com.ict.fly.domain.entity.FAirplane" resultMap="BaseResultMap">
-    select * from f_airplane where plane_type = #{plane_type}
+    select * from f_airplane where plane_name = #{planeName}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select * from f_airplane where plane_use = 0;
+    select * from f_airplane;
   </select>
 </mapper>

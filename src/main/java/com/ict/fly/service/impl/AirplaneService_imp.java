@@ -3,6 +3,9 @@ package com.ict.fly.service.impl;
 import com.ict.fly.dao.FAirplaneMapper;
 import com.ict.fly.dao.FSeattypeMapper;
 import com.ict.fly.domain.entity.FAirplane;
+import com.ict.fly.domain.entity.FSeattype;
+import com.ict.fly.domain.input.AddPlane;
+import com.ict.fly.domain.input.PlaneEntity;
 import com.ict.fly.domain.result.Result;
 import com.ict.fly.service.AirplaneService;
 import org.springframework.stereotype.Service;
@@ -20,20 +23,20 @@ public class AirplaneService_imp implements AirplaneService {
 
     //新增航班
     @Override
-    public Result addAirplane(String plane_type, int plane_seat, String plane_name, int plane_lx, int plane_ly) {
+    public Result addAirplane(AddPlane addPlane) {
         Result result = new Result();
-        FAirplane f = fAirplaneMapper.findByName(plane_type);
+        FAirplane f = fAirplaneMapper.findByName(addPlane.getPlane_name());
         if (f != null) {
             result.setStatus(-1);
             result.setMsg("此航班已存在");
             return result;
         }
         FAirplane fAirplane = new FAirplane();
-        fAirplane.setPlaneType(plane_type);
-        fAirplane.setPlaneSeat(plane_seat);
-        fAirplane.setPlaneName(plane_name);
-        fAirplane.setPlaneLocationx(plane_lx);
-        fAirplane.setPlaneLocationy(plane_ly);
+        fAirplane.setPlaneType(addPlane.getPlane_type());
+        fAirplane.setPlaneSeat(addPlane.getPlane_seat());
+        fAirplane.setPlaneName(addPlane.getPlane_name());
+        fAirplane.setPlaneLocationx(addPlane.getPlane_lx());
+        fAirplane.setPlaneLocationy(addPlane.getPlane_ly());
         fAirplane.setPlaneUse(0);//默认新增航班可用
         fAirplaneMapper.insert(fAirplane);
         result.setStatus(0);
@@ -44,9 +47,9 @@ public class AirplaneService_imp implements AirplaneService {
 
     //修改航班
     @Override
-    public Result updateAirplane(String plane_type, int plane_seat, String plane_name, int plane_lx, int plane_ly, int plane_use) {
+    public Result updateAirplane(PlaneEntity planeEntity) {
         Result result = new Result();
-        FAirplane f = fAirplaneMapper.findByName(plane_type);
+        FAirplane f = fAirplaneMapper.findByName(planeEntity.getPlane_name());
         if (f == null) {
             result.setStatus(-1);
             result.setMsg("此航班不存在");
@@ -54,12 +57,12 @@ public class AirplaneService_imp implements AirplaneService {
         }
         FAirplane fAirplane = new FAirplane();
         fAirplane.setPlaneId(f.getPlaneId());
-        fAirplane.setPlaneType(plane_type);
-        fAirplane.setPlaneSeat(plane_seat);
-        fAirplane.setPlaneName(plane_name);
-        fAirplane.setPlaneLocationx(plane_lx);
-        fAirplane.setPlaneLocationy(plane_ly);
-        fAirplane.setPlaneUse(plane_use);
+        fAirplane.setPlaneType(planeEntity.getPlane_type());
+        fAirplane.setPlaneSeat(planeEntity.getPlane_seat());
+        fAirplane.setPlaneName(planeEntity.getPlane_name());
+        fAirplane.setPlaneLocationx(planeEntity.getPlane_lx());
+        fAirplane.setPlaneLocationy(planeEntity.getPlane_ly());
+        fAirplane.setPlaneUse(planeEntity.getPlane_use());
         fAirplaneMapper.updateByPrimaryKeySelective(fAirplane);
         result.setStatus(0);
         result.setMsg("航班信息修改成功");
@@ -77,10 +80,17 @@ public class AirplaneService_imp implements AirplaneService {
             result.setMsg("此航班不存在");
             return result;
         }
-        FAirplane fAirplane = new FAirplane();
-        fAirplane.setPlaneId(f.getPlaneId());
-        fAirplane.setPlaneUse(1);
-        fAirplaneMapper.updateByPrimaryKeySelective(fAirplane);
+        List<FSeattype> fSeattype = fSeattypeMapper.findByPlaneId(f.getPlaneId());
+        if (fSeattype.size() != 0) {
+            result.setStatus(-1);
+            result.setMsg("此航班已关联座位信息，暂不能删除");
+            return result;
+        }
+//        FAirplane fAirplane = new FAirplane();
+//        fAirplane.setPlaneId(f.getPlaneId());
+//        fAirplane.setPlaneUse(1);
+//        fAirplaneMapper.updateByPrimaryKeySelective(fAirplane);
+        fAirplaneMapper.deleteByPrimaryKey(f.getPlaneId());
         result.setStatus(0);
         result.setMsg("航班删除成功");
         return result;

@@ -27,4 +27,10 @@ public interface FPersonDemandMapper {
     int updateByPrimaryKeySelective(FPersonDemand record);
 
     int updateByPrimaryKey(FPersonDemand record);
+
+    List<FPersonDemand> selPersonDemand(int planeId);
+
+    int delectByPlaneId(Integer planeId);
+
+    List<FPersonDemand> select_Demand (int userinfo_id);
 }

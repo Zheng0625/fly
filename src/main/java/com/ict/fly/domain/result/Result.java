@@ -1,6 +1,8 @@
 package com.ict.fly.domain.result;
 
-public class Result {
+import com.github.pagehelper.Page;
+
+public class Result{
 
     private int status = 0;
     private String msg = "";

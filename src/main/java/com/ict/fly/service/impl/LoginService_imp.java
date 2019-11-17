@@ -6,6 +6,7 @@ import com.ict.fly.domain.entity.FUserinfoExample;
 import com.ict.fly.domain.input.LoginInput;
 import com.ict.fly.domain.result.Result;
 import com.ict.fly.service.LoginService;
+import com.ict.fly.util.MSUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,36 +18,33 @@ import java.util.List;
  */
 @Service("loginService")
 public class LoginService_imp implements LoginService {
-
     @Resource
     private FUserinfoMapper fUserinfoMapper;
 
     @Override
     public Result Login(LoginInput loginInput) {
         Result result = new Result();
-
         FUserinfoExample fUserinfoExample = new FUserinfoExample();
         FUserinfoExample.Criteria criteria = fUserinfoExample.createCriteria();
-
         criteria.andUUsernameEqualTo(loginInput.getUsername());
-
         List<FUserinfo> fUserinfos = fUserinfoMapper.selectByExampleWithBLOBs(fUserinfoExample);
         if (fUserinfos.size() == 1) {
             FUserinfo fUserinfo = fUserinfos.get(0);
-            if (fUserinfo.getuPassword().equals(loginInput.getPassword())) {
+            if (fUserinfo.getuPassword().equals(MSUtil.md5(MSUtil.md5(MSUtil.md5(loginInput.getPassword()))))) {
                 result.setStatus(0);
                 result.setMsg("登录成功");
                 result.setData(fUserinfo);
             } else {
+                System.out.println(MSUtil.md5(MSUtil.md5(MSUtil.md5(loginInput.getPassword()))));
                 result.setStatus(-1);
-                result.setMsg("密码错误，请重新输入");
+                result.setMsg("账号或密码错误，请重新输入");
             }
         } else if (fUserinfos.size() > 1) {
             result.setStatus(-1);
             result.setMsg("数据错误，请联系管理员");
         } else {
             result.setStatus(-1);
-            result.setMsg("用户不存在，请前往注册");
+            result.setMsg("账号或密码错误，请重新输入");
         }
         return result;
 

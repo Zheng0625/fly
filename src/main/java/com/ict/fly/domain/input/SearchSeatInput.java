@@ -2,7 +2,7 @@ package com.ict.fly.domain.input;
 
 public class SearchSeatInput {
     private Integer planeId;
-    private String planeType;
+    private String planeName;
 
     public Integer getPlaneId() {
         return planeId;
@@ -12,11 +12,11 @@ public class SearchSeatInput {
         this.planeId = planeId;
     }
 
-    public String getPlaneType() {
-        return planeType;
+    public String getPlaneName() {
+        return planeName;
     }
 
-    public void setPlaneType(String planeType) {
-        this.planeType = planeType;
+    public void setPlaneName(String planeName) {
+        this.planeName = planeName;
     }
 }

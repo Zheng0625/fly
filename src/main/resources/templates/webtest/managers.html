@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员系统</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom Styles */
+        ul.nav-tabs {
+            width: 160px;
+            margin-top: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+        }
+
+        ul.nav-tabs li {
+            margin: 0;
+            border-top: 1px solid #ddd;
+        }
+
+        ul.nav-tabs li:first-child {
+            border-top: none;
+        }
+
+        ul.nav-tabs li a {
+            margin: 0;
+            padding: 8px 16px;
+            border-radius: 0;
+        }
+
+        ul.nav-tabs li.active a,
+        ul.nav-tabs li.active a:hover {
+            color: #fff;
+            background: #0088cc;
+            border: 1px solid #0088cc;
+        }
+
+        ul.nav-tabs li:first-child a {
+            border-radius: 4px 4px 0 0;
+        }
+
+        ul.nav-tabs li:last-child a {
+            border-radius: 0 0 4px 4px;
+        }
+
+        ul.nav-tabs.affix {
+            top: 30px;
+            /* Set the top position of pinned element */
+        }
+
+        h2 {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 200px;
+            border: 1px;
+            border-color: gray;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#myNav").affix({
+                offset: {
+                    top: 125
+                }
+            });
+        });
+    </script>
+</head>
+
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="container">
+    <h1>飞机管理员</h1>
+    <div class="row">
+        <div class="col-xs-3" id="myScrollspy">
+            <ul class="nav nav-tabs nav-stacked" id="myNav">
+                <li class="active"><a href="#section-1">添加航班</a></li>
+                <li><a href="#section-2">查看乘客信息</a></li>
+                <li><a href="#section-3">查看座位分布情况</a></li>
+                <!-- <li><a href="#section-4">第四部分</a></li>
+                <li><a href="#section-5">第五部分</a></li> -->
+            </ul>
+        </div>
+        <div class="col-xs-9">
+            <h2 id="section-1">添加航班</h2>
+            <span style="margin-left:20px;font-weight:bold;font-size: 20px;">航班</span><br/>
+            <input class="btn btn-default" value=" 马航375" style="margin-top: 10px;"><br/>
+            <input class="btn btn-default" value="波音747"/><br/>
+            <input class="btn btn-default" value="波音777"/><br/>
+            <input class="btn btn-default" value="马航377"/><br/>
+            <input class="btn btn-default" data-toggle="modal" data-target="#myModal" value="添加航班"/>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel1">
+                                模态框（Modal）标题
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            在这里添加一些文本
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                提交更改
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <hr>
+            <h2 id="section-2">查看乘客信息</h2>
+            <span style="margin-left:20px;font-weight:bold;font-size: 20px;">乘客信息</span><br/>
+            <input class="btn btn-default" id="yonghumimg" data-toggle="modal" data-target="#Modal1" value=" 查看乘客用户名"
+                   style="margin-top: 10px;"/><br/>
+            <input class="btn btn-default" data-toggle="modal" data-target="#Modal3" value=" 查看VIP乘客"/><br/>
+            <input class="btn btn-default" data-toggle="modal" data-target="#Modal4" value=" 查看普通乘客"/><br/>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabelPutong">
+                                查看乘客用户名
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            乘客用户名为：
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabelVip">
+                                查看VIP乘客
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            用户名为：是VIP乘客
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="Modal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                查看普通乘客
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            用户名为：是普通乘客
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <hr>
+
+            <h3 id="section-3">查看座位分布情况</h3>
+            <span style="margin-left:20px;font-weight:bold;font-size: 20px;">座位状态分布图</span><br/>
+
+            <div>
+
+            </div>
+            <hr>
+            <!-- <h3 id="section-4">第四部分</h3>
+
+            <hr>
+            <h3 id="section-5">第五部分</h3> -->
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+</script>
+</html>

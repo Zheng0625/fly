@@ -1,5 +1,7 @@
 package com.ict.fly.domain.entity;
 
+import com.ict.fly.domain.input.SelectOrderResultMap;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -51,6 +53,16 @@ public class FUserinfo implements Serializable {
      * 密码
      */
     private String uPassword;
+
+    private SelectOrderResultMap selectOrderResultMap;
+
+    public SelectOrderResultMap getSelectOrderResultMap() {
+        return selectOrderResultMap;
+    }
+
+    public void setSelectOrderResultMap(SelectOrderResultMap selectOrderResultMap) {
+        this.selectOrderResultMap = selectOrderResultMap;
+    }
 
     private static final long serialVersionUID = 1L;
 

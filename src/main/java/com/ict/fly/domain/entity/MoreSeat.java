@@ -4,13 +4,23 @@ public class MoreSeat {
 
     private long one;
     private long two;
+    private int planeId;
 
     @Override
     public String toString() {
         return "MoreSeat{" +
                 "one=" + one +
                 ", two=" + two +
+                ", planeId=" + planeId +
                 '}';
+    }
+
+    public int getPlaneId() {
+        return planeId;
+    }
+
+    public void setPlaneId(int planeId) {
+        this.planeId = planeId;
     }
 
     public long getOne() {

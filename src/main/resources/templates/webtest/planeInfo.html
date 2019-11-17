@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webtest/head::copyhead"></head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div th:include="webtest/header::copyheader"></div>
+<div class="content-wrapper" style="height: 1500px" th:fragment="copyright">
+    <center><span style="font-size: 35px">航班信息管理</span></center>
+    <div style="border-bottom: 1px solid; width: 100%"></div>
+
+    <section style="width:50%;float: left">
+        <center><h3>航班管理</h3></center>
+        <!--<input type="button" class="selAll_plane" id="selAll_plane" value="查询所有航班">-->
+        <input type="button" id="addbtn" name="addbtn" class="btn btn-info" data-toggle="modal"
+               data-target="#myAddModal" value="新增航班"/>
+        <div class="modal fade" id="myAddModal" tabindex="-1" role="dialog"
+             aria-labelledby="myAddModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;
+                        </button>
+                        <h4 class="modal-title" id="myAddModalLabel">请输入新增航班信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        &#12288;飞机型号：<input type="text" name="dupplaneType" id="addplaneType" value=""/><br/>
+                        &#12288;航班名称：<input type="text" name="dupplaneName" id="addplaneName" value=""/>
+                        <span style="display:inline-block;text-align:center; color: black;font-size: 12px">
+                            <span style="color: red">*</span>航班名称唯一哦</span><br/>
+                        飞机座位数：<input type="text" name="dupplaneSeat" id="addplaneSeat" value=""/><br/>
+                        &#12288;是否可用：<input type="checkbox" id="my_add_checkbox" name="my-add_checkbox" data-am-switch
+                                            data-off-text=" 否"
+                                            data-on-text=" 是"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" id="addform"/>
+                        新增
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table border="1" id="res" class="table table-bordered table-hover">
+            <tr>
+                <th style="width:10%">ID</th>
+                <th style="width:20%">飞机型号</th>
+                <th style="width:20%">航班名称</th>
+                <th style="width:20%">飞机座位数</th>
+                <th style="width:10%">是否可用</th>
+                <th style="width:15%">操作</th>
+            </tr>
+            <tbody id="list_content"></tbody>
+        </table>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">请输入修改内容</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="dataid" value="0"/>
+
+                        &#12288;&#12288;&#12288;&#12288;ID：<input type="text" value="" id="updateid"
+                                                                  readonly="readonly"/><br/>
+                        &#12288;飞机型号：<input type="text" name="dupplaneType" id="dupplaneType" value=""
+                                            readonly="readonly"/><br/>
+                        &#12288;航班名称：<input type="text" name="dupplaneName" id="dupplaneName" readonly="readonly"
+                                            value=""/><br/>
+                        飞机座位数：<input type="text" name="dupplaneSeat" id="dupplaneSeat" value=""/><br/>
+                        &#12288;是否可用：<input type="checkbox" name="my-update_checkbox" id="my_update_checkbox"
+                                            data-am-switch data-off-text="否" data-on-text="是"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" id="updateform" data-switch-set="state"/>
+                        提交更改
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="mydelModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;
+                        </button>
+                        <h4 class="modal-title" id="mydelModalLabel">您确定要删除么？</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary deletebtn"/>
+                        确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="width: 50%;float: right">
+        <center>
+            <span style="font-size: 25px">飞机座位布局</span><br><br>
+            <p>
+                <span style="font-size: 20px"><img src="../../toudengseat.png">头等舱</span>
+                <span style="font-size: 20px"><img src="../../shangwuseat.png">商务舱</span>
+                <span style="font-size: 20px"><img src="../../shangseat.png">经济舱</span>
+            </p>
+            <p>
+                <span style="font-size: 20px;"><img src="../../outlink/img/yellow.svg" style="width: 20px;height: 20px">已售出</span>
+                <span style="font-size: 20px;"><img src="../../outlink/img/green.svg" style="width: 20px;height: 20px">未售出</span>
+                <span style="font-size: 20px;"><img src="../../outlink/img/blue.svg" style="width: 20px;height: 20px">已占座</span>
+            </p>
+            <select name="" id="xiala" class="" style="width: 80px;height: 35px;border-radius:7px">
+                <!--航班查询下拉框-->
+            </select>
+            <input type="button" class="search" id="search" value="布局查询"
+                   style="width: 80px;height: 35px;background: #00a65a;border-radius:5px;color: white"><br><br>
+            <table id="seatstable">
+                <!--飞机座位布局-->
+            </table>
+        </center>
+    </section>
+</div>
+
+<!--<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="../../outlink/jquery.pagination.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../../outlink/switch/bootstrap-switch.js"></script>
+<script src="../../outlink/switch/amazeui.switch.js"></script>
+<script>
+    //网页加载调用 selAllPlane();
+    window.onload = function () {
+        selAllPlane();
+    }
+    var del_planeName = null;
+
+    //查询所有航班,封装方法
+    function selAllPlane() {
+        $.ajax({
+            type: "get",
+            url: "../plane",
+            success: function (result) {
+                var html = "";
+                var i = 0;
+                if (i < result.data.length) {
+                    $.each(result.data, function (index, value) {
+                        html += " <option value='" + value.planeName + "'>";
+                        html += value.planeName;
+                        html += "</option>";
+                        i++;
+                    })
+                    console.log(result);
+                }
+                $("#xiala").html(html);
+                if (result.status == 0) {
+                    $("#list_content").html("");    //清空id = list_content 区域代码
+                    if (result.data.length == 0) {
+                        alert("查询结果为空！");
+                        return;
+                    }
+                    var html = "";
+                    var listall = result.data;  //后端返回listAll数组
+                    $.each(listall, function (index, value) {  //循环遍历listAll 并添加html标签
+                        var plane_use = null;
+                        if (value.planeUse == 0) {
+                            plane_use = "是";
+                        } else {
+                            plane_use = "否";
+                        }
+                        html += "<tr>";
+                        html += "<td>";
+                        html += value.planeId;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.planeType;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.planeName;
+                        html += "</td>";
+                        html += "<td>";
+                        html += value.planeSeat;
+                        html += "</td>";
+                        html += "<td>";
+                        html += plane_use;
+                        html += "</td>";
+                        html += "<td>";                                                    //自定义dataid username 等标签  通过thymeleaf查询、获取
+                        html += "<input type=\"button\" dataid='" + value.planeId + "' planeType ='" + value.planeType + "' planeName ='" + value.planeName + "' planeSeat ='" + value.planeSeat + "' planeUse='" + value.planeUse + "' name=\"updatebtn\" id=\"updatebtn\" class=\"btn btn-warning updatebtn\" value=\"修改\"/>"
+                            + "     " + "<input type=\"button\" dataid='" + value.planeId + "' planeName ='" + value.planeName + "'  class=\"btn btn-danger  del\"  value=\"删除\"/>";
+                        html += "</td>";
+                        html += "</tr>";
+                    });
+                    $("#list_content").html(html);   //添加id = list_content 区域代码
+                    $('.updatebtn').click(function () {   //使用class选择器！
+                        $('#myModal').modal();
+                        $('input[name="my-update_checkbox"]').bootstrapSwitch();
+                        var idindex = $(this).attr("dataid");   //获取属性为dataid的值
+                        var planeTypeupdate = $(this).attr("planeType");
+                        var planeNameupdate = $(this).attr("planeName");
+                        var planeplaneUseupdate = $(this).attr("planeUse");
+                        var planeSeatupdate = $(this).attr("planeSeat");
+                        $("#updateid").val(idindex);         //赋值给id = updateid的input
+                        $("#dupplaneType").val(planeTypeupdate);
+                        $("#dupplaneName").val(planeNameupdate);
+                        $("#dupplaneSeat").val(planeSeatupdate);
+                        if (planeplaneUseupdate == 0) {
+                            $('input[name="my-update_checkbox"]').bootstrapSwitch('state', true);
+                        }
+                    })
+
+                    $('.del').click(function () {
+                        $('#mydelModal').modal();
+                        del_planeName = $(this).attr("planeName");
+                    })
+                }
+            },
+        })
+    };
+    //删除航班
+    $('.deletebtn').click(function () {
+        $.ajax({
+            type: "post",
+            url: "/plane/delete",
+            data: JSON.stringify(del_planeName),
+            contentType: "application/json; charset=utf-8",
+            type: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    $('#mydelModal').modal('hide');
+                    selAllPlane();
+                    alert("删除成功");
+                }
+                if (data.status == -1) {
+                    $('#mydelModal').modal('hide');
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                if (data.code == -1) {
+                    alert("删除失败")
+                }
+            }
+        })
+    })
+    //查询飞机布局
+    $('#search').click(function () {
+        $("#xiala").val();//获取当前选择项的值.
+        var options = $("#xiala option:selected");//获取当前选择项.
+        var searchName = options.val();//获取当前选择项的值.
+        $.ajax({
+            type: "post",
+            url: "/index/p",
+            data: {plane_type: searchName},
+            success: function (result) {//ajax请求成功后触发的方法
+                console.log(result);
+                var html = "";
+                if (result.data.length == 0) {
+                    $("#seatstable").html(html);
+                    alert(result.msg);
+                    return;
+                }
+                for (var i = 0; i < result.data.length; i++) {
+                    html += "<tr id=\"tou\" class=\"tou\" >";
+                    $.each(result.data[i], function (index, value) {
+                        if (value.seatType == 0) {
+                            if (value.seatYn == 1) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "<center>"
+                                html += "过道";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "' isseat='" + value.searchSeatResult.isseat + "' />";
+                                html += "</center>"
+                                html += "</td>";
+                            } else {
+                                html += "<td class=cang style='border:1px red solid' width='80px'>";
+                                html += "<center>"
+                                html += "<img src='/../../toudengseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  id='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</center>"
+                                html += "</td>";
+                            }
+                        }
+                        if (value.seatType == 1) {
+                            if (value.seatYn == 1) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "<center>"
+                                html += "过道";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "'/>";
+                                html += "</center>"
+                                html += "</td>";
+                            } else {
+                                html += "<td class=cang style='border:1px red solid' width='80px'>";
+                                html += "<center>"
+                                html += "<img src='/../../shangwuseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  id='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</center>"
+                                html += "</td>";
+                            }
+                        }
+                        if (value.seatType == 2) {
+                            if (value.seatYn == 1) {
+                                html += "<td style='border:1px red solid' width='80px' >";
+                                html += "<center>"
+                                html += "过道";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  isseat='" + value.searchSeatResult.isseat + "'/>";
+                                html += "</center>"
+                                html += "</td>";
+                            } else {
+                                html += "<td class=cang style='border:1px red solid' width='80px'>";
+                                html += "<center>"
+                                html += "<img src='/../../shangseat.png'>";
+                                html += "<input type='\hidden\' seatid='" + value.seatId + "' seattype='" + value.seatType + "'  id='" + value.searchSeatResult.isseat + "' class='isseat'/>";
+                                html += "</center>"
+                                html += "</td>";
+
+                            }
+                        }
+                    });
+                    html += "</tr>";
+                }
+                $("#seatstable").html(html);
+                var b_isseat = document.getElementsByClassName("isseat");
+                // var b_isseat = {}
+                $.each(b_isseat, function (index, value) {
+                    // console.log(b_isseat[index]);
+                    // console.log(b_isseat);
+                    if (b_isseat[index].id != "0") {   //已售出
+                        var ps = b_isseat[index].parentNode.style.backgroundColor = "#FFFF00";  //得到父节点，并设置背景颜色
+                    } else {             //未售出
+                        var ps = b_isseat[index].parentNode.style.backgroundColor = "#92D050";  //得到父节点，并设置背景颜色
+                    }
+                });
+            },
+            error: function (data) {
+                alert("error")
+            }
+        });
+    })
+    //修改航班
+    $('#updateform').click(function () {
+        var idindex = $(this).attr("dataid");   //获取属性为dataid的值
+        var planeTypeupdate = $("#dupplaneType").val();
+        var planeNameupdate = $("#dupplaneName").val();
+        var planeSeatupdate = $("#dupplaneSeat").val();
+        var planeYN = null;
+        var selectNY = $('#my_update_checkbox').data().bootstrapSwitch.options.state;
+        if (selectNY.toString() == "false") {
+            planeYN = 1
+        } else {
+            planeYN = 0
+        }
+
+        if (planeNameupdate == "") {
+            alert("航班名称不能为空");
+            return;
+        }
+        if (planeTypeupdate == "") {
+            alert("飞机型号不能为空")
+            return;
+        }
+        if (planeSeatupdate == "") {
+            alert("飞机座位数不能为空")
+            return;
+        }
+        var planeEntity = {
+            plane_type: planeTypeupdate,
+            plane_seat: planeSeatupdate,
+            plane_name: planeNameupdate,
+            plane_use: planeYN
+        };
+        console.log(planeEntity);
+        $.ajax({
+            type: "post",
+            url: "/plane/update",
+            data: JSON.stringify(planeEntity),
+            contentType: "application/json; charset=utf-8",
+            type: "json",       //后台处理后返回的数据格式
+            success: function (data) {//ajax请求成功后触发的方法
+                if (data.status == 0) {
+                    $('#myModal').modal('hide');
+                    alert(data.msg);
+                    selAllPlane();
+                    $('#myModal').modal('hide');
+                } else {
+                    alert(data.msg);
+                }
+            }
+        })
+    })
+
+    //新增航班
+    $('#addform').click(function () {
+        var plane_name = $("#addplaneName").val();
+        var plane_type = $("#addplaneType").val();
+        var plane_seat = $("#addplaneSeat").val();
+        var planeYN = null;
+        var selectNY = $('#my_add_checkbox').data().bootstrapSwitch.options.state;
+        if (selectNY.toString() == "false") {
+            planeYN = 1
+        } else {
+            planeYN = 0
+        }
+        if (plane_name == "") {
+            alert("航班名称不能为空");
+            return;
+        }
+        if (plane_type == "") {
+            alert("飞机型号不能为空")
+            return;
+        }
+        if (plane_seat == "") {
+            alert("飞机座位数不能为空")
+            return;
+        }
+        var plane_lx = 7;
+        var plane_ly = 30;
+        var addone = {
+            "plane_name": plane_name,
+            "plane_type": plane_type,
+            "plane_seat": plane_seat,
+            "plane_lx": plane_lx,
+            "plane_ly": plane_ly,
+            "plane_use": planeYN
+        };
+        console.log(addone);
+        $.ajax({
+            type: "post",
+            url: "../plane/add",
+            data: JSON.stringify(addone),
+            contentType: "application/json; charset=utf-8",
+            type: "json",       //后台处理后返回的数据格式
+            success: function (result) {//ajax请求成功后触发的方法
+                if (result.status == 0) {
+                    alert('新增航班成功');
+                    $('#myAddModal').modal('hide');
+                    selAllPlane();
+                }
+                if (result.status == -1) {
+                    alert(result.msg)
+                    // $('#myAddModal').modal('hide');
+                }
+            },
+            error: function (result) {
+                alert("新增航班失败")
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

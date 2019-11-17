@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--声明使用thymeleaf-->
+<head th:replace="webtest/head::copyhead"></head>   <!--thymeleaf公共模板-->
+<body class="hold-transition skin-blue sidebar-mini" >
+<div th:include="webtest/header::copyheader"></div>
+<div class="content-wrapper" style="height: 1500px" th:fragment="copyright">
+    <center><span style="font-size: 35px">统计信息可视化</span></center>
+    <div style="border-bottom: 1px solid; width: 100%"></div>
+        <div id="container" style="height: 50%"></div>
+
+
+
+
+
+</div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="../../outlink/jquery.pagination.js"></script>
+<script src="../../outlink/echarts.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('container'));
+    option = null;
+    option = {
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['靠窗','靠过道','前排位置','紧急出口','腿部宽敞','登机口','婴儿挂载','年轻女性','年轻男性','四周无婴儿']
+        },
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:33, name:'靠窗'},
+                    {value:21, name:'靠过道'},
+                    {value:24, name:'前排位置'},
+                    {value:2, name:'紧急出口'},
+                    {value:40, name:'腿部宽敞'},
+                    {value:2, name:'登机口'},
+                    {value:3, name:'婴儿挂载'},
+                    {value:5, name:'年轻女性'},
+                    {value:3, name:'年轻男性'},
+                    {value:1, name:'四周无婴儿'},
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    ;
+    // if (option && typeof option === "object") {
+    //     myChart.setOption(option, true);
+    // }
+</script>
+</body>
+</html>

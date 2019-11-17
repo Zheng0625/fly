@@ -1,140 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.fly.dao.FUserinfoMapper">
-  <resultMap id="BaseResultMap" type="com.ict.fly.domain.entity.FUserinfo">
-    <id column="userinfo_id" jdbcType="INTEGER" property="userinfoId" />
-    <result column="u_username" jdbcType="VARCHAR" property="uUsername" />
-    <result column="u_name" jdbcType="VARCHAR" property="uName" />
-    <result column="u_sex" jdbcType="INTEGER" property="uSex" />
-    <result column="u_age" jdbcType="INTEGER" property="uAge" />
-    <result column="u_demand" jdbcType="VARCHAR" property="uDemand" />
-    <result column="u_vip" jdbcType="INTEGER" property="uVip" />
-    <result column="u_creatime" jdbcType="TIMESTAMP" property="uCreatime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ict.fly.domain.entity.FUserinfo">
-    <result column="u_password" jdbcType="LONGVARCHAR" property="uPassword" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.ict.fly.domain.entity.FUserinfo">
+        <id column="userinfo_id" jdbcType="INTEGER" property="userinfoId"/>
+        <result column="u_username" jdbcType="VARCHAR" property="uUsername"/>
+        <result column="u_name" jdbcType="VARCHAR" property="uName"/>
+        <result column="u_sex" jdbcType="INTEGER" property="uSex"/>
+        <result column="u_age" jdbcType="INTEGER" property="uAge"/>
+        <result column="u_demand" jdbcType="VARCHAR" property="uDemand"/>
+        <result column="u_vip" jdbcType="INTEGER" property="uVip"/>
+        <result column="u_creatime" jdbcType="TIMESTAMP" property="uCreatime"/>
+        <collection  property="selectOrderResultMap"
+                     javaType="com.ict.fly.domain.input.SelectOrderResultMap">
+            <result property="seat_locationx" column="seat_locationx"/>
+            <result property="seat_locationy" column="seat_locationy"/>
+            <result property="plane_name" column="plane_name"/>
+            <result property="u_username" column="u_username"/>
+        </collection >
+    </resultMap>
+
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ict.fly.domain.entity.FUserinfo">
+        <result column="u_password" jdbcType="LONGVARCHAR" property="uPassword"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     userinfo_id, u_username, u_name, u_sex, u_age, u_demand, u_vip, u_creatime
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     u_password
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.ict.fly.domain.entity.FUserinfoExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from f_userinfo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" parameterType="com.ict.fly.domain.entity.FUserinfoExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from f_userinfo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      <if test="offset != null">
-        limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from f_userinfo
-    where userinfo_id = #{userinfoId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByExampleWithBLOBs" parameterType="com.ict.fly.domain.entity.FUserinfoExample"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from f_userinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.ict.fly.domain.entity.FUserinfoExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from f_userinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from f_userinfo
+        where userinfo_id = #{userinfoId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from f_userinfo
     where userinfo_id = #{userinfoId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ict.fly.domain.entity.FUserinfoExample">
-    delete from f_userinfo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.ict.fly.domain.entity.FUserinfo">
+    <delete id="deleteByExample" parameterType="com.ict.fly.domain.entity.FUserinfoExample">
+        delete from f_userinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ict.fly.domain.entity.FUserinfo">
     insert into f_userinfo (userinfo_id, u_username, u_name, 
       u_sex, u_age, u_demand, 
       u_vip, u_creatime, u_password
@@ -144,168 +155,168 @@
       #{uVip,jdbcType=INTEGER}, #{uCreatime,jdbcType=TIMESTAMP}, #{uPassword,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ict.fly.domain.entity.FUserinfo">
-    insert into f_userinfo
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userinfoId != null">
-        userinfo_id,
-      </if>
-      <if test="uUsername != null">
-        u_username,
-      </if>
-      <if test="uName != null">
-        u_name,
-      </if>
-      <if test="uSex != null">
-        u_sex,
-      </if>
-      <if test="uAge != null">
-        u_age,
-      </if>
-      <if test="uDemand != null">
-        u_demand,
-      </if>
-      <if test="uVip != null">
-        u_vip,
-      </if>
-      <if test="uCreatime != null">
-        u_creatime,
-      </if>
-      <if test="uPassword != null">
-        u_password,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userinfoId != null">
-        #{userinfoId,jdbcType=INTEGER},
-      </if>
-      <if test="uUsername != null">
-        #{uUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="uName != null">
-        #{uName,jdbcType=VARCHAR},
-      </if>
-      <if test="uSex != null">
-        #{uSex,jdbcType=INTEGER},
-      </if>
-      <if test="uAge != null">
-        #{uAge,jdbcType=INTEGER},
-      </if>
-      <if test="uDemand != null">
-        #{uDemand,jdbcType=VARCHAR},
-      </if>
-      <if test="uVip != null">
-        #{uVip,jdbcType=INTEGER},
-      </if>
-      <if test="uCreatime != null">
-        #{uCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="uPassword != null">
-        #{uPassword,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.ict.fly.domain.entity.FUserinfoExample" resultType="java.lang.Long">
-    select count(*) from f_userinfo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update f_userinfo
-    <set>
-      <if test="record.userinfoId != null">
-        userinfo_id = #{record.userinfoId,jdbcType=INTEGER},
-      </if>
-      <if test="record.uUsername != null">
+    <insert id="insertSelective" parameterType="com.ict.fly.domain.entity.FUserinfo">
+        insert into f_userinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userinfoId != null">
+                userinfo_id,
+            </if>
+            <if test="uUsername != null">
+                u_username,
+            </if>
+            <if test="uName != null">
+                u_name,
+            </if>
+            <if test="uSex != null">
+                u_sex,
+            </if>
+            <if test="uAge != null">
+                u_age,
+            </if>
+            <if test="uDemand != null">
+                u_demand,
+            </if>
+            <if test="uVip != null">
+                u_vip,
+            </if>
+            <if test="uCreatime != null">
+                u_creatime,
+            </if>
+            <if test="uPassword != null">
+                u_password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userinfoId != null">
+                #{userinfoId,jdbcType=INTEGER},
+            </if>
+            <if test="uUsername != null">
+                #{uUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="uName != null">
+                #{uName,jdbcType=VARCHAR},
+            </if>
+            <if test="uSex != null">
+                #{uSex,jdbcType=INTEGER},
+            </if>
+            <if test="uAge != null">
+                #{uAge,jdbcType=INTEGER},
+            </if>
+            <if test="uDemand != null">
+                #{uDemand,jdbcType=VARCHAR},
+            </if>
+            <if test="uVip != null">
+                #{uVip,jdbcType=INTEGER},
+            </if>
+            <if test="uCreatime != null">
+                #{uCreatime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="uPassword != null">
+                #{uPassword,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ict.fly.domain.entity.FUserinfoExample" resultType="java.lang.Long">
+        select count(*) from f_userinfo
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update f_userinfo
+        <set>
+            <if test="record.userinfoId != null">
+                userinfo_id = #{record.userinfoId,jdbcType=INTEGER},
+            </if>
+            <if test="record.uUsername != null">
+                u_username = #{record.uUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="record.uName != null">
+                u_name = #{record.uName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.uSex != null">
+                u_sex = #{record.uSex,jdbcType=INTEGER},
+            </if>
+            <if test="record.uAge != null">
+                u_age = #{record.uAge,jdbcType=INTEGER},
+            </if>
+            <if test="record.uDemand != null">
+                u_demand = #{record.uDemand,jdbcType=VARCHAR},
+            </if>
+            <if test="record.uVip != null">
+                u_vip = #{record.uVip,jdbcType=INTEGER},
+            </if>
+            <if test="record.uCreatime != null">
+                u_creatime = #{record.uCreatime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.uPassword != null">
+                u_password = #{record.uPassword,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update f_userinfo
+        set userinfo_id = #{record.userinfoId,jdbcType=INTEGER},
         u_username = #{record.uUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="record.uName != null">
         u_name = #{record.uName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.uSex != null">
         u_sex = #{record.uSex,jdbcType=INTEGER},
-      </if>
-      <if test="record.uAge != null">
         u_age = #{record.uAge,jdbcType=INTEGER},
-      </if>
-      <if test="record.uDemand != null">
         u_demand = #{record.uDemand,jdbcType=VARCHAR},
-      </if>
-      <if test="record.uVip != null">
         u_vip = #{record.uVip,jdbcType=INTEGER},
-      </if>
-      <if test="record.uCreatime != null">
         u_creatime = #{record.uCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.uPassword != null">
-        u_password = #{record.uPassword,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update f_userinfo
-    set userinfo_id = #{record.userinfoId,jdbcType=INTEGER},
-      u_username = #{record.uUsername,jdbcType=VARCHAR},
-      u_name = #{record.uName,jdbcType=VARCHAR},
-      u_sex = #{record.uSex,jdbcType=INTEGER},
-      u_age = #{record.uAge,jdbcType=INTEGER},
-      u_demand = #{record.uDemand,jdbcType=VARCHAR},
-      u_vip = #{record.uVip,jdbcType=INTEGER},
-      u_creatime = #{record.uCreatime,jdbcType=TIMESTAMP},
-      u_password = #{record.uPassword,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update f_userinfo
-    set userinfo_id = #{record.userinfoId,jdbcType=INTEGER},
-      u_username = #{record.uUsername,jdbcType=VARCHAR},
-      u_name = #{record.uName,jdbcType=VARCHAR},
-      u_sex = #{record.uSex,jdbcType=INTEGER},
-      u_age = #{record.uAge,jdbcType=INTEGER},
-      u_demand = #{record.uDemand,jdbcType=VARCHAR},
-      u_vip = #{record.uVip,jdbcType=INTEGER},
-      u_creatime = #{record.uCreatime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ict.fly.domain.entity.FUserinfo">
-    update f_userinfo
-    <set>
-      <if test="uUsername != null">
-        u_username = #{uUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="uName != null">
-        u_name = #{uName,jdbcType=VARCHAR},
-      </if>
-      <if test="uSex != null">
-        u_sex = #{uSex,jdbcType=INTEGER},
-      </if>
-      <if test="uAge != null">
-        u_age = #{uAge,jdbcType=INTEGER},
-      </if>
-      <if test="uDemand != null">
-        u_demand = #{uDemand,jdbcType=VARCHAR},
-      </if>
-      <if test="uVip != null">
-        u_vip = #{uVip,jdbcType=INTEGER},
-      </if>
-      <if test="uCreatime != null">
-        u_creatime = #{uCreatime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="uPassword != null">
-        u_password = #{uPassword,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where userinfo_id = #{userinfoId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ict.fly.domain.entity.FUserinfo">
+        u_password = #{record.uPassword,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update f_userinfo
+        set userinfo_id = #{record.userinfoId,jdbcType=INTEGER},
+        u_username = #{record.uUsername,jdbcType=VARCHAR},
+        u_name = #{record.uName,jdbcType=VARCHAR},
+        u_sex = #{record.uSex,jdbcType=INTEGER},
+        u_age = #{record.uAge,jdbcType=INTEGER},
+        u_demand = #{record.uDemand,jdbcType=VARCHAR},
+        u_vip = #{record.uVip,jdbcType=INTEGER},
+        u_creatime = #{record.uCreatime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ict.fly.domain.entity.FUserinfo">
+        update f_userinfo
+        <set>
+            <if test="uUsername != null">
+                u_username = #{uUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="uName != null">
+                u_name = #{uName,jdbcType=VARCHAR},
+            </if>
+            <if test="uSex != null">
+                u_sex = #{uSex,jdbcType=INTEGER},
+            </if>
+            <if test="uAge != null">
+                u_age = #{uAge,jdbcType=INTEGER},
+            </if>
+            <if test="uDemand != null">
+                u_demand = #{uDemand,jdbcType=VARCHAR},
+            </if>
+            <if test="uVip != null">
+                u_vip = #{uVip,jdbcType=INTEGER},
+            </if>
+            <if test="uCreatime != null">
+                u_creatime = #{uCreatime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="uPassword != null">
+                u_password = #{uPassword,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where userinfo_id = #{userinfoId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ict.fly.domain.entity.FUserinfo">
     update f_userinfo
     set u_username = #{uUsername,jdbcType=VARCHAR},
       u_name = #{uName,jdbcType=VARCHAR},
@@ -317,7 +328,7 @@
       u_password = #{uPassword,jdbcType=LONGVARCHAR}
     where userinfo_id = #{userinfoId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ict.fly.domain.entity.FUserinfo">
+    <update id="updateByPrimaryKey" parameterType="com.ict.fly.domain.entity.FUserinfo">
     update f_userinfo
     set u_username = #{uUsername,jdbcType=VARCHAR},
       u_name = #{uName,jdbcType=VARCHAR},
@@ -329,7 +340,23 @@
     where userinfo_id = #{userinfoId,jdbcType=INTEGER}
   </update>
 
-  <select id="findByUsername" parameterType="string" resultMap="BaseResultMap">
+    <select id="findByUsername" parameterType="string" resultMap="BaseResultMap">
     select * from f_userinfo where u_username = #{uUsername}
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+    select * from f_userinfo
+  </select>
+    <select id="selectVIP" parameterType="int" resultMap="BaseResultMap">
+    select * from f_userinfo where u_vip = #{uVip}
+  </select>
+
+    <select id="selectOrder" parameterType="int" resultMap="BaseResultMap" resultType="com.ict.fly.domain.entity.FUserinfo">
+    SELECT f_seattype.seat_locationx,f_seattype.seat_locationy,f_airplane.plane_name,t1.u_username
+    from f_seattype
+    LEFT JOIN f_orderinfo ON f_seattype.seat_id = f_orderinfo.seat_id
+    LEFT JOIN f_airplane ON f_seattype.plane_id = f_airplane.plane_id
+    LEFT JOIN (SELECT * FROM f_userinfo WHERE userinfo_id = #{userinfoId,jdbcType=INTEGER}) t1 ON t1.u_username = f_orderinfo.u_name
+    WHERE f_seattype.seat_id = f_orderinfo.seat_id and f_orderinfo.u_name  = t1.u_username
   </select>
 </mapper>

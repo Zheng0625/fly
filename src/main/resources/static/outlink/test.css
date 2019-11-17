@@ -35,7 +35,6 @@ h1 {
 }
 
 span {
-    color: white;
     font-size: 20px;
     font-weight: bolder;
 }
@@ -107,13 +106,13 @@ img {
     height: 20px;
 }
 
-#loginbtn {
-    float: right;
-    margin-right: 0px;
-    padding: 5px 10px;
-    font-size: 15px;
-    border-radius: 10px;
-}
+/*#loginbtn {*/
+    /*float: right;*/
+    /*margin-right: 0px;*/
+    /*padding: 5px 10px;*/
+    /*font-size: 15px;*/
+    /*border-radius: 10px;*/
+/*}*/
 #loginoutbtn {
     float: right;
     margin-right: 0px;

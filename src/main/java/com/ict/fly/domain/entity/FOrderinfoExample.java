@@ -504,73 +504,73 @@ public class FOrderinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeIsNull() {
-            addCriterion("plane_type is null");
+        public Criteria andPlaneNameIsNull() {
+            addCriterion("plane_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeIsNotNull() {
-            addCriterion("plane_type is not null");
+        public Criteria andPlaneNameIsNotNull() {
+            addCriterion("plane_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeEqualTo(String value) {
-            addCriterion("plane_type =", value, "planeType");
+        public Criteria andPlaneNameEqualTo(String value) {
+            addCriterion("plane_name =", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeNotEqualTo(String value) {
-            addCriterion("plane_type <>", value, "planeType");
+        public Criteria andPlaneNameNotEqualTo(String value) {
+            addCriterion("plane_name <>", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeGreaterThan(String value) {
-            addCriterion("plane_type >", value, "planeType");
+        public Criteria andPlaneNameGreaterThan(String value) {
+            addCriterion("plane_name >", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("plane_type >=", value, "planeType");
+        public Criteria andPlaneNameGreaterThanOrEqualTo(String value) {
+            addCriterion("plane_name >=", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeLessThan(String value) {
-            addCriterion("plane_type <", value, "planeType");
+        public Criteria andPlaneNameLessThan(String value) {
+            addCriterion("plane_name <", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeLessThanOrEqualTo(String value) {
-            addCriterion("plane_type <=", value, "planeType");
+        public Criteria andPlaneNameLessThanOrEqualTo(String value) {
+            addCriterion("plane_name <=", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeLike(String value) {
-            addCriterion("plane_type like", value, "planeType");
+        public Criteria andPlaneNameLike(String value) {
+            addCriterion("plane_name like", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeNotLike(String value) {
-            addCriterion("plane_type not like", value, "planeType");
+        public Criteria andPlaneNameNotLike(String value) {
+            addCriterion("plane_name not like", value, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeIn(List<String> values) {
-            addCriterion("plane_type in", values, "planeType");
+        public Criteria andPlaneNameIn(List<String> values) {
+            addCriterion("plane_name in", values, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeNotIn(List<String> values) {
-            addCriterion("plane_type not in", values, "planeType");
+        public Criteria andPlaneNameNotIn(List<String> values) {
+            addCriterion("plane_name not in", values, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeBetween(String value1, String value2) {
-            addCriterion("plane_type between", value1, value2, "planeType");
+        public Criteria andPlaneNameBetween(String value1, String value2) {
+            addCriterion("plane_name between", value1, value2, "planeName");
             return (Criteria) this;
         }
 
-        public Criteria andPlaneTypeNotBetween(String value1, String value2) {
-            addCriterion("plane_type not between", value1, value2, "planeType");
+        public Criteria andPlaneNameNotBetween(String value1, String value2) {
+            addCriterion("plane_name not between", value1, value2, "planeName");
             return (Criteria) this;
         }
     }

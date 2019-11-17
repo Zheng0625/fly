@@ -28,7 +28,7 @@ public interface FAirplaneMapper {
 
     int updateByPrimaryKey(FAirplane record);
 
-    FAirplane findByName(String plane_type);
+    FAirplane findByName(String plane_name);
 
     List<FAirplane> selectAll();
 }
